@@ -1,10 +1,20 @@
 import React from 'react'
 
-import { ExampleComponent } from 'expandable-textarea'
-import 'expandable-textarea/dist/index.css'
+import ExpandableTextarea from 'expandable-textarea'
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  return (
+    <div>
+      <h3>Example</h3>
+      <ExpandableTextarea
+        placeholder='Start development'
+        rows={1}
+        maxLines={1}
+        name='email'
+        initialValue='initial value'
+      />
+    </div>
+  )
 }
 
 export default App
