@@ -16,21 +16,12 @@ export default function ExpandableTextarea({
   resizeDebouncingDelay = 300,
   ...rest // additional standard textarea attributes like: disabled, wrap,...
 }) {
-  const [internalValue, setInternalValue] = useState(initialValue)
-  const [cloneValue, setCloneValue] = useState(initialValue)
-  const [lineCount, setLineCount] = useState(null)
-  const [lineHeight, setLineHeight] = useState(null)
-  const [currentCursor, setCurrentCursor] = useState(null)
-  const [prevCursor, setPrevCursor] = useState(null)
-  const [toggleToCurrent, forceToCurrent] = useState(false)
-  const [toggleToPrev, forceToPrev] = useState(false)
-  const [toggleToUpdate, forceToUpdate] = useState(false)
-
   const [cloneStylesLater] = useDelayedFunction(
     cloneStyles,
     resizeDebouncingDelay
   )
-  const stylesName = [
+
+  const cloningStyles = [
     'width',
     'fontFamily',
     'fontSize',
@@ -42,7 +33,12 @@ export default function ExpandableTextarea({
     'paddingRight'
   ]
   const textAreaRef = useRef()
-  const cloneTextArea = useRef()
+  const cloneRef = useRef()
+  const state = useRef({
+    value: initialValue,
+    cloneValue: initialValue,
+    lineCount: 1
+  }).current
   const { name } = rest
   if (!submitValue) {
     rest.disabled = true
@@ -51,47 +47,6 @@ export default function ExpandableTextarea({
   if (!rest.wrap) {
     rest.wrap = maxLines == 1 ? 'off' : 'on'
   }
-
-  function submitChange() {
-    if (initialValue != internalValue && name) {
-      submitValue({ [name]: internalValue })
-    }
-  }
-
-  function handleChange(e) {
-    setCurrentCursor(e.target.selectionStart)
-    setCloneValue(e.target.value)
-    forceToUpdate(!toggleToUpdate)
-  }
-
-  useLayoutEffect(() => {
-    if (!cloneTextArea.current || !textAreaRef.current) return
-    const newLineCount = Math.floor(
-      cloneTextArea.current.scrollHeight /
-        parseInt(getComputedStyle(cloneTextArea.current).height, 10)
-    )
-
-    setLineCount(newLineCount)
-    const increasing = cloneValue.length > internalValue.length
-    if (maxLines && newLineCount > maxLines && increasing) {
-      forceToCurrent(!toggleToCurrent)
-      return
-    }
-    forceToPrev(!toggleToPrev)
-    setInternalValue(cloneValue)
-  }, [cloneValue, lineHeight, toggleToUpdate])
-
-  useLayoutEffect(() => {
-    if (!textAreaRef.current) return
-    textAreaRef.current.selectionStart = currentCursor
-    textAreaRef.current.selectionEnd = currentCursor
-  }, [internalValue, toggleToPrev])
-
-  useLayoutEffect(() => {
-    if (!textAreaRef.current) return
-    textAreaRef.current.selectionStart = prevCursor
-    textAreaRef.current.selectionEnd = prevCursor
-  }, [toggleToCurrent])
 
   useEffect(() => {
     const styleObserver = new MutationObserver(cloneStyles)
@@ -112,17 +67,58 @@ export default function ExpandableTextarea({
     }
   }, [])
 
+  function handleChange(e) {
+    const increasing = state.value.length > state.cloneValue.length
+    state.currentCursor = e.target.selectionStart
+    setClone(e.target.value)
+    state.lineCount = getLineCount()
+
+    if (maxLines && state.lineCount > maxLines && increasing) {
+      cusrorTo(state.prevCursor)
+      return
+    }
+    cusrorTo(state.currentCursor)
+    setTextarea(state.cloneValue)
+  }
+
+  function setClone(value) {
+    cloneRef.current.value = value
+    state.cloneValue = value
+  }
+
+  function setTextarea(value) {
+    textAreaRef.current.value = value
+    state.value = value
+  }
+
+  function cusrorTo(value) {
+    textAreaRef.current.selectionStart = value
+    textAreaRef.current.selectionEnd = value
+  }
+
+  function getLineCount() {
+    return Math.floor(
+      cloneRef.current.scrollHeight /
+        parseInt(getComputedStyle(cloneRef.current).height, 10)
+    )
+  }
+
+  function submitChange() {
+    if (initialValue != state.value && name) {
+      submitValue({ [name]: state.value })
+    }
+  }
+
   function cloneStyles() {
-    console.log('called')
-    for (let style of stylesName) {
-      cloneTextArea.current.style[style] = getComputedStyle(
-        textAreaRef.current
-      )[style]
+    for (let style of cloningStyles) {
+      cloneRef.current.style[style] = getComputedStyle(textAreaRef.current)[
+        style
+      ]
     }
   }
 
   function saveCursorPos(e) {
-    setPrevCursor(e.target.selectionStart)
+    state.prevCursor = e.target.selectionStart
   }
 
   function focusOnText(e) {
@@ -132,11 +128,13 @@ export default function ExpandableTextarea({
 
   function validRows() {
     if (rows) return rows
+    const { lineCount } = state
     if (autoResizeMax && lineCount > autoResizeMax) return autoResizeMax
     if (autoResizeMin && lineCount < autoResizeMin) return autoResizeMin
     return lineCount
   }
-  if (internalValue === undefined) return null
+
+  console.log('rendered')
   return (
     <div onClick={focusOnText}>
       {leftIcon ? leftIcon : null}
@@ -145,23 +143,22 @@ export default function ExpandableTextarea({
         className={className}
         {...rest}
         rows={validRows()}
-        value={internalValue}
+        value={state.value}
         onChange={handleChange}
         onBlur={submitChange}
         onKeyDown={saveCursorPos}
       />
       <textarea
-        ref={cloneTextArea}
+        ref={cloneRef}
         style={{
           position: 'absolute',
           paddingTop: '0px',
           paddingBottom: '0px',
-          // boxSizing: 'content-box',
           border: '0px solid #000000',
           resize: 'none'
           // visibility: 'hidden'
         }}
-        value={cloneValue}
+        value={state.cloneValue}
         disabled={true}
         rows={1}
       ></textarea>
