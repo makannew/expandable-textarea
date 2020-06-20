@@ -1,28 +1,36 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useLayoutEffect,
+  forwardRef
+} from 'react'
 import useDelayedFunction from 'use-delayed-function'
-export default function ExpandableTextarea({
-  leftIcon,
-  rightIcon,
-  className,
-  submitValue, // parent function submitValue({name:newValue}) , name:"inputName" prop should provided
-  initialValue = '',
-  value,
-  setValue,
-  maxLines, // if not defined textarea lines not limited
-  autoResizeMin, // min row
-  autoResizeMax, // max row
-  rows, // if set will be fixed rows
-  validation,
-  resizeDebouncingDelay = 300,
-  ...rest // additional standard textarea attributes like: disabled, wrap,...
-}) {
+const ExpandableTextarea = forwardRef(function (
+  {
+    beforeElement,
+    afterElement,
+    className,
+    submitValue, // ({name:newValue}, hasChanged) , name:"inputName"
+    initialValue = '',
+    totalLines, // if not defined textarea lines not limited
+    minRows, // min row
+    maxRows, // max row
+    rows, // if set will be fixed rows
+    validation,
+    resizeDebouncingDelay = 300,
+    fitInField = false,
+    ...rest // additional standard textarea attributes like: disabled, wrap,...
+  },
+  forwardedRef
+) {
   const [cloneStylesLater] = useDelayedFunction(
     cloneStyles,
     resizeDebouncingDelay
   )
-
   const cloningStyles = [
     'width',
+    'border',
     'fontFamily',
     'fontSize',
     'fontWeight',
@@ -34,18 +42,22 @@ export default function ExpandableTextarea({
   ]
   const textAreaRef = useRef()
   const cloneRef = useRef()
-  const state = useRef({
+  const pRef = useRef()
+  const prevCursor = useRef()
+  const currentCursor = useRef()
+  const lineHeight = useRef()
+  const [state, setState] = useState({
     value: initialValue,
-    cloneValue: initialValue,
-    lineCount: 1
-  }).current
+    lineCount: minRows || 1
+  })
+
   const { name } = rest
   if (!submitValue) {
     rest.disabled = true
   }
 
   if (!rest.wrap) {
-    rest.wrap = maxLines == 1 ? 'off' : 'on'
+    rest.wrap = totalLines == 1 ? 'off' : 'on'
   }
 
   useEffect(() => {
@@ -67,45 +79,49 @@ export default function ExpandableTextarea({
     }
   }, [])
 
-  function handleChange(e) {
-    const increasing = state.value.length > state.cloneValue.length
-    state.currentCursor = e.target.selectionStart
-    setClone(e.target.value)
-    state.lineCount = getLineCount()
+  useEffect(() => {
+    if (currentCursor.current) {
+      setCursorState(currentCursor.current)
+    }
+  }, [state])
 
-    if (maxLines && state.lineCount > maxLines && increasing) {
-      cusrorTo(state.prevCursor)
+  useEffect(() => {
+    if (forwardedRef) {
+      forwardedRef.current = textAreaRef.current
+    }
+  }, [])
+
+  function handleChange(e) {
+    const newValue = e.target.value
+    const iniLineCount = getLineCount(state.value)
+    currentCursor.current = getCursorState(e.target)
+    const increasing = newValue.length > state.value.length
+    const lineCount = getLineCount(newValue)
+    const shrinking = totalLines && iniLineCount > totalLines && !increasing
+    if (totalLines && lineCount > totalLines && !shrinking) {
+      currentCursor.current = prevCursor.current
+      setState({ value: state.value, lineCount: iniLineCount })
       return
     }
-    cusrorTo(state.currentCursor)
-    setTextarea(state.cloneValue)
+
+    setState({ value: newValue, lineCount })
   }
 
-  function setClone(value) {
+  function getLineHeight() {
+    lineHeight.current = parseInt(getComputedStyle(pRef.current).height, 10)
+  }
+
+  function getLineCount(value) {
     cloneRef.current.value = value
-    state.cloneValue = value
-  }
-
-  function setTextarea(value) {
-    textAreaRef.current.value = value
-    state.value = value
-  }
-
-  function cusrorTo(value) {
-    textAreaRef.current.selectionStart = value
-    textAreaRef.current.selectionEnd = value
-  }
-
-  function getLineCount() {
-    return Math.floor(
-      cloneRef.current.scrollHeight /
-        parseInt(getComputedStyle(cloneRef.current).height, 10)
-    )
+    return Math.floor(cloneRef.current.scrollHeight / lineHeight.current)
   }
 
   function submitChange() {
-    if (initialValue != state.value && name) {
-      submitValue({ [name]: state.value })
+    if (typeof name === 'string') {
+      submitValue({
+        [name]: state.value,
+        hasChanged: initialValue !== state.value
+      })
     }
   }
 
@@ -114,30 +130,53 @@ export default function ExpandableTextarea({
       cloneRef.current.style[style] = getComputedStyle(textAreaRef.current)[
         style
       ]
+      if (style !== 'border') {
+        pRef.current.style[style] = getComputedStyle(textAreaRef.current)[style]
+      }
+    }
+    getLineHeight()
+    cloneRef.current.style['height'] = `${lineHeight.current}px`
+  }
+
+  function getCursorState(elem) {
+    return {
+      cursorStart: elem.selectionStart,
+      cursorEnd: elem.selectionEnd,
+
+      scrollTop: elem.scrollTop,
+      scrollLeft: elem.scrollLeft
     }
   }
 
-  function saveCursorPos(e) {
-    state.prevCursor = e.target.selectionStart
+  function setCursorState({ cursorStart, cursorEnd, scrollTop, scrollLeft }) {
+    const elem = textAreaRef.current
+    elem.selectionStart = cursorStart
+    elem.selectionEnd = cursorEnd
+    elem.scrollTop = scrollTop
+    elem.scrollLeft = scrollLeft
+  }
+
+  function handleKeyDown(e) {
+    prevCursor.current = getCursorState(e.target)
   }
 
   function focusOnText(e) {
-    e.preventDefault()
-    textAreaRef.current.focus()
+    if (e.target !== textAreaRef.current) {
+      textAreaRef.current.focus()
+    }
   }
 
   function validRows() {
     if (rows) return rows
     const { lineCount } = state
-    if (autoResizeMax && lineCount > autoResizeMax) return autoResizeMax
-    if (autoResizeMin && lineCount < autoResizeMin) return autoResizeMin
+    if (maxRows && lineCount > maxRows) return maxRows
+    if (minRows && lineCount < minRows) return minRows
     return lineCount
   }
 
-  console.log('rendered')
   return (
     <div onClick={focusOnText}>
-      {leftIcon ? leftIcon : null}
+      {beforeElement ? beforeElement : null}
       <textarea
         ref={textAreaRef}
         className={className}
@@ -146,7 +185,7 @@ export default function ExpandableTextarea({
         value={state.value}
         onChange={handleChange}
         onBlur={submitChange}
-        onKeyDown={saveCursorPos}
+        onKeyDown={handleKeyDown}
       />
       <textarea
         ref={cloneRef}
@@ -155,14 +194,29 @@ export default function ExpandableTextarea({
           paddingTop: '0px',
           paddingBottom: '0px',
           border: '0px solid #000000',
-          resize: 'none'
-          // visibility: 'hidden'
+          resize: 'none',
+          visibility: 'hidden'
         }}
-        value={state.cloneValue}
         disabled={true}
         rows={1}
+        cols={rest.cols}
+        wrap={totalLines == 1 ? (fitInField == true ? 'on' : 'off') : rest.wrap}
       ></textarea>
-      {rightIcon ? rightIcon : null}
+      <p
+        ref={pRef}
+        style={{
+          position: 'absolute',
+          paddingTop: '0px',
+          paddingBottom: '0px',
+          border: '0px solid #000000',
+          visibility: 'hidden'
+        }}
+      >
+        1
+      </p>
+      {afterElement ? afterElement : null}
     </div>
   )
-}
+})
+
+export default ExpandableTextarea

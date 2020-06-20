@@ -16,11 +16,22 @@ code {
 .my-text {
   /* resize: none; */
   /* overflow: hidden; */
+  padding: 20px;
+  box-sizing: border-box;
+  border: 5px solid brown;
+  margin: 10px;
+  font-size: large;
+  font-weight: 900;
+  width: 40vw;
+}
+
+.ordinary-text {
+  /* resize: none; */
+  /* overflow: hidden; */
   padding: 10px;
   box-sizing: border-box;
   border: 5px solid brown;
   margin: 10px;
   font-size: large;
   font-weight: 900;
-  width: 20vw;
 }
