@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useLayoutEffect,
-  forwardRef
-} from 'react'
+import React, { useState, useEffect, useRef, forwardRef } from 'react'
 import useDelayedFunction from 'use-delayed-function'
 const ExpandableTextarea = forwardRef(function (
   {
@@ -17,7 +11,7 @@ const ExpandableTextarea = forwardRef(function (
     minRows, // min row
     maxRows, // max row
     rows, // if set will be fixed rows
-    validation,
+    validationFunction,
     resizeDebouncingDelay = 300,
     fitInField = false,
     ...rest // additional standard textarea attributes like: disabled, wrap,...
@@ -43,8 +37,8 @@ const ExpandableTextarea = forwardRef(function (
   const textAreaRef = useRef()
   const cloneRef = useRef()
   const pRef = useRef()
-  const prevCursor = useRef()
-  const currentCursor = useRef()
+  const changeData = useRef()
+  // const currentCursor = useRef()
   const lineHeight = useRef()
   const [state, setState] = useState({
     value: initialValue,
@@ -80,8 +74,29 @@ const ExpandableTextarea = forwardRef(function (
   }, [])
 
   useEffect(() => {
-    if (currentCursor.current) {
-      setCursorState(currentCursor.current)
+    if (changeData.current) {
+      const elem = textAreaRef.current
+      const {
+        newCursorStart,
+        newCursorEnd,
+        newScrollTop,
+        newScrollLeft,
+        iniCursorStart,
+        iniCursorEnd,
+        iniScrollTop,
+        iniScrollLeft
+      } = changeData.current
+      if (changeData.current.valid) {
+        elem.selectionStart = newCursorStart
+        elem.selectionEnd = newCursorEnd
+        elem.scrollTop = newScrollTop
+        elem.scrollLeft = newScrollLeft
+      } else {
+        elem.selectionStart = iniCursorStart
+        elem.selectionEnd = iniCursorEnd
+        elem.scrollTop = iniScrollTop
+        elem.scrollLeft = iniScrollLeft
+      }
     }
   }, [state])
 
@@ -91,20 +106,60 @@ const ExpandableTextarea = forwardRef(function (
     }
   }, [])
 
+  useEffect(() => {
+    setState({ value: initialValue, lineCount: getLineCount(initialValue) })
+  }, [initialValue])
+
   function handleChange(e) {
     const newValue = e.target.value
     const iniLineCount = getLineCount(state.value)
-    currentCursor.current = getCursorState(e.target)
+    const {
+      cursorStart: newCursorStart,
+      cursorEnd: newCursorEnd,
+      scrollTop: newScrollTop,
+      scrollLeft: newScrollLeft
+    } = getCursorState(e.target)
     const increasing = newValue.length > state.value.length
-    const lineCount = getLineCount(newValue)
-    const shrinking = totalLines && iniLineCount > totalLines && !increasing
-    if (totalLines && lineCount > totalLines && !shrinking) {
-      currentCursor.current = prevCursor.current
-      setState({ value: state.value, lineCount: iniLineCount })
-      return
+    const newLineCount = getLineCount(newValue)
+    const excessIsShrinking =
+      totalLines && iniLineCount > totalLines && !increasing
+    changeData.current = {
+      ...changeData.current,
+      iniValue: state.value,
+      iniLineCount,
+      newValue,
+      newLineCount,
+      excessIsShrinking,
+      increasing,
+      newCursorStart,
+      newCursorEnd,
+      newScrollTop,
+      newScrollLeft
     }
+    if (totalLines && newLineCount > totalLines && !excessIsShrinking) {
+      changeData.current.valid = false
+    } else {
+      changeData.current.valid = true
+    }
+    validate()
+  }
 
-    setState({ value: newValue, lineCount })
+  function validate() {
+    if (validationFunction) {
+      changeData.current = validationFunction(changeData.current)
+    }
+    const {
+      valid,
+      iniValue,
+      newValue,
+      iniLineCount,
+      newLineCount
+    } = changeData.current
+    if (valid) {
+      setState({ value: newValue, lineCount: newLineCount })
+    } else {
+      setState({ value: iniValue, lineCount: iniLineCount })
+    }
   }
 
   function getLineHeight() {
@@ -148,16 +203,20 @@ const ExpandableTextarea = forwardRef(function (
     }
   }
 
-  function setCursorState({ cursorStart, cursorEnd, scrollTop, scrollLeft }) {
-    const elem = textAreaRef.current
-    elem.selectionStart = cursorStart
-    elem.selectionEnd = cursorEnd
-    elem.scrollTop = scrollTop
-    elem.scrollLeft = scrollLeft
-  }
-
   function handleKeyDown(e) {
-    prevCursor.current = getCursorState(e.target)
+    const {
+      cursorStart: iniCursorStart,
+      cursorEnd: iniCursorEnd,
+      scrollTop: iniScrollTop,
+      scrollLeft: iniScrollLeft
+    } = getCursorState(e.target)
+    changeData.current = {
+      iniCursorStart,
+      iniCursorEnd,
+      iniScrollTop,
+      iniScrollLeft,
+      pressedKey: e.key
+    }
   }
 
   function focusOnText(e) {
@@ -173,7 +232,7 @@ const ExpandableTextarea = forwardRef(function (
     if (minRows && lineCount < minRows) return minRows
     return lineCount
   }
-
+  console.log('rendered')
   return (
     <div onClick={focusOnText}>
       {beforeElement ? beforeElement : null}
