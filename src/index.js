@@ -14,10 +14,21 @@ const ExpandableTextarea = forwardRef(function (
     validationFunction,
     resizeDebouncingDelay = 300,
     fitInField = false,
+    mask,
+    replace,
     ...rest // additional standard textarea attributes like: disabled, wrap,...
   },
   forwardedRef
 ) {
+  const textAreaRef = useRef()
+  const cloneRef = useRef()
+  const pRef = useRef()
+  const changeData = useRef({})
+  const lineHeight = useRef()
+  const [state, setState] = useState({
+    value: initialValue,
+    lineCount: minRows || 1
+  })
   const [cloneStylesLater] = useDelayedFunction(
     cloneStyles,
     resizeDebouncingDelay
@@ -34,16 +45,6 @@ const ExpandableTextarea = forwardRef(function (
     'paddingLeft',
     'paddingRight'
   ]
-  const textAreaRef = useRef()
-  const cloneRef = useRef()
-  const pRef = useRef()
-  const changeData = useRef()
-  // const currentCursor = useRef()
-  const lineHeight = useRef()
-  const [state, setState] = useState({
-    value: initialValue,
-    lineCount: minRows || 1
-  })
 
   const { name } = rest
   if (!submitValue) {
@@ -77,23 +78,23 @@ const ExpandableTextarea = forwardRef(function (
     if (changeData.current) {
       const elem = textAreaRef.current
       const {
-        newCursorStart,
-        newCursorEnd,
+        newSelectionStart,
+        newSelectionEnd,
         newScrollTop,
         newScrollLeft,
-        iniCursorStart,
-        iniCursorEnd,
+        iniSelectionStart,
+        iniSelectionEnd,
         iniScrollTop,
         iniScrollLeft
       } = changeData.current
       if (changeData.current.valid) {
-        elem.selectionStart = newCursorStart
-        elem.selectionEnd = newCursorEnd
+        elem.selectionStart = newSelectionStart
+        elem.selectionEnd = newSelectionEnd
         elem.scrollTop = newScrollTop
         elem.scrollLeft = newScrollLeft
       } else {
-        elem.selectionStart = iniCursorStart
-        elem.selectionEnd = iniCursorEnd
+        elem.selectionStart = iniSelectionStart
+        elem.selectionEnd = iniSelectionEnd
         elem.scrollTop = iniScrollTop
         elem.scrollLeft = iniScrollLeft
       }
@@ -114,8 +115,8 @@ const ExpandableTextarea = forwardRef(function (
     const newValue = e.target.value
     const iniLineCount = getLineCount(state.value)
     const {
-      cursorStart: newCursorStart,
-      cursorEnd: newCursorEnd,
+      cursorStart: newSelectionStart,
+      cursorEnd: newSelectionEnd,
       scrollTop: newScrollTop,
       scrollLeft: newScrollLeft
     } = getCursorState(e.target)
@@ -131,8 +132,8 @@ const ExpandableTextarea = forwardRef(function (
       newLineCount,
       excessIsShrinking,
       increasing,
-      newCursorStart,
-      newCursorEnd,
+      newSelectionStart,
+      newSelectionEnd,
       newScrollTop,
       newScrollLeft
     }
@@ -205,14 +206,15 @@ const ExpandableTextarea = forwardRef(function (
 
   function handleKeyDown(e) {
     const {
-      cursorStart: iniCursorStart,
-      cursorEnd: iniCursorEnd,
+      cursorStart: iniSelectionStart,
+      cursorEnd: iniSelectionEnd,
       scrollTop: iniScrollTop,
       scrollLeft: iniScrollLeft
     } = getCursorState(e.target)
     changeData.current = {
-      iniCursorStart,
-      iniCursorEnd,
+      ...changeData.current,
+      iniSelectionStart,
+      iniSelectionEnd,
       iniScrollTop,
       iniScrollLeft,
       pressedKey: e.key
@@ -232,7 +234,7 @@ const ExpandableTextarea = forwardRef(function (
     if (minRows && lineCount < minRows) return minRows
     return lineCount
   }
-  console.log('rendered')
+
   return (
     <div onClick={focusOnText}>
       {beforeElement ? beforeElement : null}
