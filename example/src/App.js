@@ -4,7 +4,7 @@ import ExpandableTextarea from 'expandable-textarea'
 
 const App = () => {
   const [state, setState] = useState('')
-  const [iniValue, setIniValue] = useState('0421978463')
+  const [iniValue, setIniValue] = useState('0123456789')
   const [render, forceRender] = useState(false)
   // const parentRef = useRef()
   // useEffect(() => {
@@ -29,10 +29,11 @@ const App = () => {
   }
 
   function phoneFormat(changeData) {
-    const acceptedChar = /\d/g
+    const validChar = /\d/g
+    const maskStr = '!!!!-!!!!-!!!!-!!!!'
     const replaceChar = '!'
-    const maskStr = '+(!!!)-!!!!-!!!!'
-    const visibleMask = true
+    const preVisibleMask = false
+    const rightToLeft = true
     const {
       pressedKey,
       newSelectionStart,
@@ -40,65 +41,78 @@ const App = () => {
       newValue,
       valid
     } = changeData
-    const validChar = pressedKey.length === 1 && pressedKey.match(acceptedChar)
-    if (
-      validChar ||
-      pressedKey === 'Delete' ||
-      (pressedKey === 'Backspace' && valid)
-    ) {
-    } else {
-      return { ...changeData, valid: false }
-    }
+    if (!valid) return { ...changeData }
 
-    const unmaskVal = newValue.match(acceptedChar) || ['']
-    let unmaskCursorPos = (
-      newValue.slice(0, newSelectionStart).match(acceptedChar) || []
+    const unformated = (newValue.match(validChar) || ['']).join('')
+    let alreadyValid = true
+    for (let i = 0, len = newValue.length; i < len; ++i) {
+      if (i > maskStr.length) {
+        alreadyValid = false
+        break
+      }
+      if (maskStr[i] === replaceChar && !newValue[i].match(validChar)) {
+        alreadyValid = false
+        break
+      }
+      if (maskStr[i] !== replaceChar && newValue[i] !== maskStr[i]) {
+        alreadyValid = false
+        break
+      }
+    }
+    if (alreadyValid && pressedKey !== 'Delete' && pressedKey !== 'Backspace') {
+      return { ...changeData, unformatedValue: unformated }
+    }
+    const unformatedPos = (
+      newValue.slice(0, newSelectionStart).match(validChar) || []
     ).length
-    let unmaskIndex = 0
+    let formated = ''
+    let valIndex = 0
     let cursorPos = 0
-    let maskedValue = ''
-    let index = 0
-    let maxIndex = unmaskVal.length
-    let firstValidPos = false
+    let firstReplaceHappened = false
     for (let i = 0, len = maskStr.length; i < len; ++i) {
-      let thisChar = ''
-      if (maskStr[i] === replaceChar) {
-        firstValidPos = true
-        if (index < maxIndex) {
-          thisChar = unmaskVal[index]
-          ++index
-          if (unmaskIndex < unmaskCursorPos || !firstValidPos) {
-            ++cursorPos
-          }
-          ++unmaskIndex
-        } else {
-          thisChar = ' '
-        }
+      let thisChar = maskStr[i]
+      let mustReplace = thisChar === replaceChar
+      let valChar = valIndex < unformated.length ? unformated[valIndex] : ''
+      if (mustReplace) {
+        firstReplaceHappened = true
+      }
+      if (valIndex < unformatedPos || !firstReplaceHappened) {
+        ++cursorPos
+      }
+      if (mustReplace) {
+        formated += valChar
+        ++valIndex
       } else {
-        thisChar = maskStr[i]
-        if (unmaskIndex < unmaskCursorPos || !firstValidPos) {
-          ++cursorPos
+        if (valChar) {
+          formated += thisChar
+        } else {
+          if (preVisibleMask) {
+            formated += thisChar
+          }
         }
       }
 
-      maskedValue += thisChar
-      if (index >= maxIndex && !visibleMask) break
+      if (!valChar && !preVisibleMask) {
+        break
+      }
     }
+
     if (
-      maskedValue[cursorPos] &&
-      !maskedValue[cursorPos].match(acceptedChar) &&
+      formated[cursorPos] &&
+      !formated[cursorPos].match(validChar) &&
       pressedKey === 'Delete'
     ) {
-      let restValue = maskedValue.substr(cursorPos)
-      if (restValue.match(acceptedChar)) {
-        let moveCursor = maskStr.substr(cursorPos).indexOf(replaceChar)
+      let restValue = formated.substring(cursorPos)
+      if (restValue.match(validChar)) {
+        let moveCursor = maskStr.substring(cursorPos).indexOf(replaceChar)
         cursorPos += moveCursor >= 0 ? moveCursor : 0
       }
     }
 
     return {
       ...changeData,
-      newValue: maskedValue,
+      unformatedValue: unformated,
+      newValue: formated,
       newSelectionStart: cursorPos,
       newSelectionEnd: cursorPos
     }
