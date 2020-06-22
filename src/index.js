@@ -11,11 +11,9 @@ const ExpandableTextarea = forwardRef(function (
     minRows, // min row
     maxRows, // max row
     rows, // if set will be fixed rows
-    validationFunction,
+    formatFunction,
     resizeDebouncingDelay = 300,
     fitInField = false,
-    mask,
-    replace,
     ...rest // additional standard textarea attributes like: disabled, wrap,...
   },
   forwardedRef
@@ -23,10 +21,10 @@ const ExpandableTextarea = forwardRef(function (
   const textAreaRef = useRef()
   const cloneRef = useRef()
   const pRef = useRef()
-  const changeData = useRef({})
+  const changeData = useRef({ unformatedValue: undefined })
   const lineHeight = useRef()
   const [state, setState] = useState({
-    value: initialValue,
+    value: '',
     lineCount: minRows || 1
   })
   const [cloneStylesLater] = useDelayedFunction(
@@ -108,25 +106,39 @@ const ExpandableTextarea = forwardRef(function (
   }, [])
 
   useEffect(() => {
-    setState({ value: initialValue, lineCount: getLineCount(initialValue) })
+    handleKeyDown({ key: '' })
+    prepareChangeData(state.value, initialValue)
+    changeData.current.valid = true
+    changeData.current.unformatedValue = undefined
+    applyFormat()
   }, [initialValue])
 
   function handleChange(e) {
-    const newValue = e.target.value
-    const iniLineCount = getLineCount(state.value)
+    prepareChangeData(state.value, e.target.value)
+    const { newLineCount, excessIsShrinking } = changeData.current
+    if (totalLines && newLineCount > totalLines && !excessIsShrinking) {
+      changeData.current.valid = false
+    } else {
+      changeData.current.valid = true
+    }
+    applyFormat()
+  }
+
+  function prepareChangeData(iniValue, newValue) {
+    const iniLineCount = getLineCount(iniValue)
     const {
       cursorStart: newSelectionStart,
       cursorEnd: newSelectionEnd,
       scrollTop: newScrollTop,
       scrollLeft: newScrollLeft
-    } = getCursorState(e.target)
-    const increasing = newValue.length > state.value.length
+    } = getCursorState(textAreaRef.current)
+    const increasing = newValue.length > iniValue.length
     const newLineCount = getLineCount(newValue)
     const excessIsShrinking =
       totalLines && iniLineCount > totalLines && !increasing
     changeData.current = {
       ...changeData.current,
-      iniValue: state.value,
+      iniValue,
       iniLineCount,
       newValue,
       newLineCount,
@@ -137,17 +149,11 @@ const ExpandableTextarea = forwardRef(function (
       newScrollTop,
       newScrollLeft
     }
-    if (totalLines && newLineCount > totalLines && !excessIsShrinking) {
-      changeData.current.valid = false
-    } else {
-      changeData.current.valid = true
-    }
-    validate()
   }
 
-  function validate() {
-    if (validationFunction) {
-      changeData.current = validationFunction(changeData.current)
+  function applyFormat() {
+    if (formatFunction) {
+      changeData.current = formatFunction(changeData.current)
     }
     const {
       valid,
@@ -174,9 +180,13 @@ const ExpandableTextarea = forwardRef(function (
 
   function submitChange() {
     if (typeof name === 'string') {
+      const { unformatedValue } = changeData.current
       submitValue({
-        [name]: state.value,
-        hasChanged: initialValue !== state.value
+        [name]: unformatedValue || state.value,
+        differFromInitial: initialValue !== (unformatedValue || state.value),
+        name,
+        unformatedValue: unformatedValue,
+        value: state.value
       })
     }
   }
@@ -210,7 +220,7 @@ const ExpandableTextarea = forwardRef(function (
       cursorEnd: iniSelectionEnd,
       scrollTop: iniScrollTop,
       scrollLeft: iniScrollLeft
-    } = getCursorState(e.target)
+    } = getCursorState(textAreaRef.current)
     changeData.current = {
       ...changeData.current,
       iniSelectionStart,
