@@ -1,5 +1,7 @@
-export function passwordMasking(para = {}) {
-  const { allowedCharsRegEx = /[^\*]/g, makingChar = '*' } = para
+export function passwordFormating(
+  allowedCharsRegEx = /[^\*]/g,
+  makingChar = '*'
+) {
   return (changeData) => {
     let {
       pressedKey,

@@ -1,0 +1,39 @@
+.mockup-server {
+  background-color: var(--white-color);
+  width: 200px;
+  min-width: 200px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--body-color);
+  box-shadow: 0 0 5px var(--text-color);
+  color: var(--gray-color);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 20px;
+}
+
+.mockup-server p {
+  font-size: small;
+  padding: 10px 13px;
+  word-wrap: break-word;
+}
+
+.mockup-server h5 {
+  text-align: center;
+  padding: 10px;
+}
+
+.updating {
+  background-color: var(--btn-color);
+
+  color: var(--text-color);
+
+  transition: ease-in 0.5s;
+}
+
+.just-updated {
+  transition: ease-in 1s;
+  color: var(--text-color);
+  background-color: var(--btn-color);
+}

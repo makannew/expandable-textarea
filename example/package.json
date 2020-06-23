@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "expandable-textarea": "file:..",
     "react": "file:../node_modules/react",
     "react-dom": "file:../node_modules/react-dom",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "file:../node_modules/react-scripts",
-    "expandable-textarea": "file:.."
+    "react-syntax-highlighter": "^12.2.1",
+    "use-delayed-function": "^1.0.0"
   },
   "scripts": {
     "start": "node ../node_modules/react-scripts/bin/react-scripts.js start",
