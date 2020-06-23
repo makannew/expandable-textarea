@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { HashRouter, Switch, Route } from 'react-router-dom'
 import Nav from './components/nav/nav'
 import ExpandShrink from './components/expand-shrink/expand-shrink'
 import InputLikeField from './components/input-like-field/input-like-field'
@@ -11,7 +11,7 @@ import MockupServer from './components/mockup-server/mockup-server'
 function App() {
   const [state, setState] = useState('')
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className='top-panel'>
         <Nav />
         <MockupServer serverState={state} />
@@ -29,7 +29,7 @@ function App() {
         <Route path='/phone-format' component={PhoneFormat} />
         <Route path='/password-format' component={PasswordFormat} />
       </Switch>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
