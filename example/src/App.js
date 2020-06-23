@@ -7,6 +7,9 @@ import CreditCardFormat from './components/credit-card-format/credit-card-format
 import PhoneFormat from './components/phone-format/phone-format'
 import PasswordFormat from './components/password-format/password-format'
 import MockupServer from './components/mockup-server/mockup-server'
+import Footer from './components/footer/footer'
+import FocusByIcon from './components/focus-by-icon/focus-by-icon'
+import CustomFormat from './components/custom-format/custom-format'
 
 function App() {
   const [state, setState] = useState('')
@@ -16,19 +19,60 @@ function App() {
         <Nav />
         <MockupServer serverState={state} />
       </div>
-      <Switch>
-        <Route exact path='/' component={Nav} />
-        <Route
-          path='/expand-shrink'
-          render={() => (
-            <ExpandShrink serverState={state} updateServer={setState} />
-          )}
-        />
-        <Route path='/input-like-field' component={InputLikeField} />
-        <Route path='/credit-card-format' component={CreditCardFormat} />
-        <Route path='/phone-format' component={PhoneFormat} />
-        <Route path='/password-format' component={PasswordFormat} />
-      </Switch>
+      <div className='examples'>
+        <Switch>
+          <Route
+            exact
+            path='/'
+            render={() => (
+              <ExpandShrink serverState={state} updateServer={setState} />
+            )}
+          />
+          <Route
+            path='/expand-shrink'
+            render={() => (
+              <ExpandShrink serverState={state} updateServer={setState} />
+            )}
+          />
+          <Route
+            path='/input-like-field'
+            render={() => (
+              <InputLikeField serverState={state} updateServer={setState} />
+            )}
+          />
+          <Route
+            path='/credit-card-format'
+            render={() => (
+              <CreditCardFormat serverState={state} updateServer={setState} />
+            )}
+          />
+          <Route
+            path='/phone-format'
+            render={() => (
+              <PhoneFormat serverState={state} updateServer={setState} />
+            )}
+          />
+          <Route
+            path='/password-format'
+            render={() => (
+              <PasswordFormat serverState={state} updateServer={setState} />
+            )}
+          />
+          <Route
+            path='/focus-by-icon'
+            render={() => (
+              <FocusByIcon serverState={state} updateServer={setState} />
+            )}
+          />
+          <Route
+            path='/custom-format'
+            render={() => (
+              <CustomFormat serverState={state} updateServer={setState} />
+            )}
+          />
+        </Switch>
+        <Footer />
+      </div>
     </HashRouter>
   )
 }

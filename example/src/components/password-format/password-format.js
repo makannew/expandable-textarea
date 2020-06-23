@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ExpandableTextarea, { passwordFormating } from 'expandable-textarea'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx'
@@ -6,13 +6,13 @@ import { prism as thisStyle } from 'react-syntax-highlighter/dist/esm/styles/pri
 
 SyntaxHighlighter.registerLanguage('jsx', jsx)
 
-export default function PasswordFormat() {
-  const [state, setState] = useState('')
-  function handleSubmit({ name, value, differFromInitial }) {
+export default function PasswordFormat({ serverState, updateServer }) {
+  function handleSubmit(result) {
+    const { name, differFromInitial } = result
     if (!differFromInitial) return
     switch (name) {
       case 'passwordFormat':
-        setState(value)
+        updateServer(result[name])
       default:
         return
     }
@@ -26,7 +26,7 @@ export default function PasswordFormat() {
       <ExpandableTextarea
         className={'fixed-height'}
         placeholder='Password'
-        initialValue={state}
+        initialValue={serverState}
         submitValue={handleSubmit}
         rows={1}
         totalLines={1}
@@ -42,16 +42,16 @@ export default function PasswordFormat() {
         showLineNumbers='true'
       >
         {`
-import React, { useState } from 'react'
+import React from 'react'
 import ExpandableTextarea, { passwordFormating } from 'expandable-textarea'
 
-export default function PasswordFormat() {
-  const [state, setState] = useState('')
-  function handleSubmit({ name, value, differFromInitial }) {
+export default function PasswordFormat({ serverState, updateServer }) {
+  function handleSubmit(result) {
+    const { name, differFromInitial } = result
     if (!differFromInitial) return
     switch (name) {
       case 'passwordFormat':
-        setState(value)
+        updateServer(result[name])
       default:
         return
     }
@@ -63,8 +63,9 @@ export default function PasswordFormat() {
     <div className='container'>
       <h4>Password format example</h4>
       <ExpandableTextarea
-        placeholder='Type here'
-        initialValue={state}
+        className={'fixed-height'}
+        placeholder='Password'
+        initialValue={serverState}
         submitValue={handleSubmit}
         rows={1}
         totalLines={1}
@@ -74,6 +75,7 @@ export default function PasswordFormat() {
     </div>
   )
 }
+
 `}
       </SyntaxHighlighter>
     </div>

@@ -1,0 +1,9 @@
+.address-icon path {
+  fill: var(--btn-color);
+}
+
+.address-icon {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+}

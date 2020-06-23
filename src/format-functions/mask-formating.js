@@ -103,7 +103,7 @@ export function maskFormating(para = {}) {
 
     return {
       ...changeData,
-      unformatedValue: unformated,
+      unformatedValue: (formated.match(validChar) || ['']).join(''),
       newValue: formated,
       newSelectionStart: cursorPos,
       newSelectionEnd: cursorPos

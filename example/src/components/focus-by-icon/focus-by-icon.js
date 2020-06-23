@@ -3,15 +3,17 @@ import ExpandableTextarea from 'expandable-textarea'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx'
 import { prism as thisStyle } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import AddressIcon from '../address-icon/address-icon'
+import styles from './focus-by-icon.module.css'
 
 SyntaxHighlighter.registerLanguage('jsx', jsx)
 
-export default function ExpandShrink({ serverState, updateServer }) {
+export default function FocusByIcon({ serverState, updateServer }) {
   function handleSubmit(result) {
     const { name, differFromInitial } = result
     if (!differFromInitial) return
     switch (name) {
-      case 'expandShrink':
+      case 'focusByIcon':
         updateServer(result[name])
       default:
         return
@@ -19,15 +21,18 @@ export default function ExpandShrink({ serverState, updateServer }) {
   }
   return (
     <div className='container'>
-      <h4>Expand-shrink example</h4>
+      <h4>Focus-by-icon example</h4>
+
       <ExpandableTextarea
-        placeholder='Type here'
+        className={styles['address']}
+        beforeElement={<AddressIcon />}
+        placeholder='Address'
         initialValue={serverState}
         submitValue={handleSubmit}
-        totalLines={5}
-        name='expandShrink'
-        minRows={1}
-        maxRows={5}
+        totalLines={3}
+        name='focusByIcon'
+        minRows={2}
+        maxRows={3}
       />
       <h4>Code</h4>
       <SyntaxHighlighter
@@ -39,13 +44,15 @@ export default function ExpandShrink({ serverState, updateServer }) {
         {`
 import React from 'react'
 import ExpandableTextarea from 'expandable-textarea'
+import AddressIcon from '../address-icon/address-icon'
+import styles from './focus-by-icon.module.css'
 
-export default function ExpandShrink({ serverState, updateServer }) {
+export default function FocusByIcon({ serverState, updateServer }) {
   function handleSubmit(result) {
     const { name, differFromInitial } = result
     if (!differFromInitial) return
     switch (name) {
-      case 'expandShrink':
+      case 'focusByIcon':
         updateServer(result[name])
       default:
         return
@@ -53,15 +60,18 @@ export default function ExpandShrink({ serverState, updateServer }) {
   }
   return (
     <div className='container'>
-      <h4>Expand-shrink example</h4>
+      <h4>Focus-by-icon example</h4>
+
       <ExpandableTextarea
-        placeholder='Type here'
+        className={styles['address']}
+        beforeElement={<AddressIcon />}
+        placeholder='Address'
         initialValue={serverState}
         submitValue={handleSubmit}
-        totalLines={5}
-        name='expandShrink'
-        minRows={1}
-        maxRows={5}
+        totalLines={3}
+        name='focusByIcon'
+        minRows={2}
+        maxRows={3}
       />
     </div>
   )

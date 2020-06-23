@@ -6,39 +6,42 @@ import { prism as thisStyle } from 'react-syntax-highlighter/dist/esm/styles/pri
 
 SyntaxHighlighter.registerLanguage('jsx', jsx)
 
-export default function CreditCardFormat({ serverState, updateServer }) {
+export default function CustomFormat({ serverState, updateServer }) {
   function handleSubmit(result) {
     const { name, differFromInitial } = result
     if (!differFromInitial) return
     switch (name) {
-      case 'creditCardFormat':
+      case 'customFormat':
         updateServer(result[name])
       default:
         return
     }
   }
-  const creditCardFormat = maskFormating({
-    maskString: '!!!!-!!!!-!!!!-!!!!',
-    replaceChar: '!',
-    validChar: /\d/g,
-    preVisibleMask: true,
-    rightToLeft: false
-  })
+
+  const customFormat = (changeData) => {
+    const { newValue, valid } = changeData
+    if (!valid) return { ...changeData }
+    const newUnformatedValue = (newValue.match(/\d/g) || ['']).join('')
+    const maskString = '(' + ''.padEnd(newUnformatedValue.length, '!') + ')'
+    const newChangeData = maskFormating({
+      maskString,
+      validChar: /\d/g
+    })(changeData)
+    return { ...newChangeData, unformatedValue: newUnformatedValue }
+  }
 
   return (
     <div className='container'>
-      <h4>Credit card format example</h4>
+      <h4>Custom-format example</h4>
       <ExpandableTextarea
-        className={'fixed-height'}
-        placeholder='Credit card number'
+        placeholder='Type numbers'
         initialValue={serverState}
         submitValue={handleSubmit}
         rows={1}
         totalLines={1}
-        formatFunction={creditCardFormat}
-        name='creditCardFormat'
+        formatFunction={customFormat}
+        name='customFormat'
       />
-
       <h4>Code</h4>
       <SyntaxHighlighter
         className='code-style'
@@ -50,43 +53,46 @@ export default function CreditCardFormat({ serverState, updateServer }) {
 import React from 'react'
 import ExpandableTextarea, { maskFormating } from 'expandable-textarea'
 
-export default function CreditCardFormat({ serverState, updateServer }) {
+export default function CustomFormat({ serverState, updateServer }) {
   function handleSubmit(result) {
     const { name, differFromInitial } = result
     if (!differFromInitial) return
     switch (name) {
-      case 'creditCardFormat':
+      case 'customFormat':
         updateServer(result[name])
       default:
         return
     }
   }
-  const creditCardFormat = maskFormating({
-    maskString: '!!!!-!!!!-!!!!-!!!!',
-    replaceChar: '!',
-    validChar: /\d/g,
-    preVisibleMask: true,
-    rightToLeft: false
-  })
+
+  const customFormat = (changeData) => {
+    const { newValue, valid } = changeData
+    if (!valid) return { ...changeData }
+    const newUnformatedValue = (newValue.match(/\d/g) || ['']).join('')
+    const maskString = '(' + ''.padEnd(newUnformatedValue.length, '!') + ')'
+    const newChangeData = maskFormating({
+      maskString,
+      validChar: /\d/g
+    })(changeData)
+    return { ...newChangeData, unformatedValue: newUnformatedValue }
+  }
 
   return (
     <div className='container'>
-      <h4>Credit card format example</h4>
+      <h4>Custom-format example</h4>
       <ExpandableTextarea
-        className={'fixed-height'}
-        placeholder='Credit card number'
+        placeholder='Type numbers'
         initialValue={serverState}
         submitValue={handleSubmit}
         rows={1}
         totalLines={1}
-        formatFunction={creditCardFormat}
-        name='creditCardFormat'
+        formatFunction={customFormat}
+        name='customFormat'
       />
     </div>
   )
 }
-
-`}
+      `}
       </SyntaxHighlighter>
     </div>
   )

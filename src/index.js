@@ -249,11 +249,10 @@ const ExpandableTextarea = forwardRef(function (
   }
 
   return (
-    <div onClick={focusOnText}>
+    <div onClick={focusOnText} className={className}>
       {beforeElement ? beforeElement : null}
       <textarea
         ref={textAreaRef}
-        className={className}
         {...rest}
         rows={validRows()}
         value={state.value}

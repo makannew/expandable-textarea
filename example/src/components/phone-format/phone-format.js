@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ExpandableTextarea, { maskFormating } from 'expandable-textarea'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx'
@@ -6,13 +6,13 @@ import { prism as thisStyle } from 'react-syntax-highlighter/dist/esm/styles/pri
 
 SyntaxHighlighter.registerLanguage('jsx', jsx)
 
-export default function PhoneFormat() {
-  const [state, setState] = useState('')
-  function handleSubmit({ name, value, differFromInitial }) {
+export default function PhoneFormat({ serverState, updateServer }) {
+  function handleSubmit(result) {
+    const { name, differFromInitial } = result
     if (!differFromInitial) return
     switch (name) {
       case 'phoneFormat':
-        setState(value)
+        updateServer(result[name])
       default:
         return
     }
@@ -32,7 +32,7 @@ export default function PhoneFormat() {
       <ExpandableTextarea
         placeholder='Phone number'
         className={'fixed-height'}
-        initialValue={state}
+        initialValue={serverState}
         submitValue={handleSubmit}
         rows={1}
         totalLines={1}
@@ -48,16 +48,16 @@ export default function PhoneFormat() {
         showLineNumbers='true'
       >
         {`
-import React, { useState } from 'react'
+import React from 'react'
 import ExpandableTextarea, { maskFormating } from 'expandable-textarea'
 
-export default function PhoneFormat() {
-  const [state, setState] = useState('')
-  function handleSubmit({ name, value, differFromInitial }) {
+export default function PhoneFormat({ serverState, updateServer }) {
+  function handleSubmit(result) {
+    const { name, differFromInitial } = result
     if (!differFromInitial) return
     switch (name) {
       case 'phoneFormat':
-        setState(value)
+        updateServer(result[name])
       default:
         return
     }
@@ -73,10 +73,11 @@ export default function PhoneFormat() {
 
   return (
     <div className='container'>
-      <h4>Credit card format example</h4>
+      <h4>Phone format example</h4>
       <ExpandableTextarea
-        placeholder='Type here'
-        initialValue={state}
+        placeholder='Phone number'
+        className={'fixed-height'}
+        initialValue={serverState}
         submitValue={handleSubmit}
         rows={1}
         totalLines={1}
@@ -86,6 +87,7 @@ export default function PhoneFormat() {
     </div>
   )
 }
+
 `}
       </SyntaxHighlighter>
     </div>
