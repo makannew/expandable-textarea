@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, forwardRef } from 'react'
 import useDelayedFunction from 'use-delayed-function'
+export * from './format-functions/password-masking'
 const ExpandableTextarea = forwardRef(function (
   {
     beforeElement,

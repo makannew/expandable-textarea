@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react'
 
-import ExpandableTextarea from 'expandable-textarea'
+import ExpandableTextarea, { passwordMasking } from 'expandable-textarea'
 
 const App = () => {
   const [state, setState] = useState('')
   const [iniValue, setIniValue] = useState('0123456789')
   const [render, forceRender] = useState(false)
+
+  const passwordFormat = passwordMasking()
   // const parentRef = useRef()
   // useEffect(() => {
   //   parentRef.current.value = 'hello'
@@ -139,49 +141,49 @@ const App = () => {
     }
   }
 
-  function passwordMasking(changeData) {
-    let {
-      pressedKey,
-      newSelectionStart,
-      newSelectionEnd,
-      newValue,
-      valid,
-      unformatedValue,
-      iniSelectionStart,
-      iniSelectionEnd
-    } = changeData
-    if (!valid) return { ...changeData }
-    let changes, newUnformatedValue
-    if (unformatedValue === undefined) {
-      newUnformatedValue = newValue
-      changes = ''
-      newSelectionStart = newValue.length
-      newSelectionEnd = newValue.length
-    } else {
-      newUnformatedValue = unformatedValue
-      changes = (newValue.match(/[^\*]/g) || ['']).join('')
-    }
-    let deleteVal = 0
-    let backspaceVal = 0
-    const notSelected = iniSelectionStart === iniSelectionEnd
-    if (pressedKey === 'Delete' && notSelected) {
-      deleteVal = 1
-    }
-    if (pressedKey === 'Backspace' && notSelected) {
-      backspaceVal = 1
-    }
-    newUnformatedValue =
-      newUnformatedValue.slice(0, iniSelectionStart - backspaceVal) +
-      changes +
-      newUnformatedValue.slice(iniSelectionEnd + deleteVal)
-    return {
-      ...changeData,
-      unformatedValue: newUnformatedValue,
-      newValue: newUnformatedValue.replace(/./g, '*'),
-      newSelectionStart,
-      newSelectionEnd
-    }
-  }
+  // function passwordMasking(changeData) {
+  //   let {
+  //     pressedKey,
+  //     newSelectionStart,
+  //     newSelectionEnd,
+  //     newValue,
+  //     valid,
+  //     unformatedValue,
+  //     iniSelectionStart,
+  //     iniSelectionEnd
+  //   } = changeData
+  //   if (!valid) return { ...changeData }
+  //   let changes, newUnformatedValue
+  //   if (unformatedValue === undefined) {
+  //     newUnformatedValue = newValue
+  //     changes = ''
+  //     newSelectionStart = newValue.length
+  //     newSelectionEnd = newValue.length
+  //   } else {
+  //     newUnformatedValue = unformatedValue
+  //     changes = (newValue.match(/[^\*]/g) || ['']).join('')
+  //   }
+  //   let deleteVal = 0
+  //   let backspaceVal = 0
+  //   const notSelected = iniSelectionStart === iniSelectionEnd
+  //   if (pressedKey === 'Delete' && notSelected) {
+  //     deleteVal = 1
+  //   }
+  //   if (pressedKey === 'Backspace' && notSelected) {
+  //     backspaceVal = 1
+  //   }
+  //   newUnformatedValue =
+  //     newUnformatedValue.slice(0, iniSelectionStart - backspaceVal) +
+  //     changes +
+  //     newUnformatedValue.slice(iniSelectionEnd + deleteVal)
+  //   return {
+  //     ...changeData,
+  //     unformatedValue: newUnformatedValue,
+  //     newValue: newUnformatedValue.replace(/./g, '*'),
+  //     newSelectionStart,
+  //     newSelectionEnd
+  //   }
+  // }
 
   return (
     <div>
@@ -198,7 +200,7 @@ const App = () => {
         // maxRows={5}
         // wrap='off'
         initialValue={iniValue}
-        formatFunction={phoneFormat}
+        formatFunction={passwordFormat}
         // ref={parentRef}
         beforeElement={<p>Hello</p>}
         afterElement={<h1>Bye</h1>}
