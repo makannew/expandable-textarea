@@ -7,7 +7,7 @@
 
 [![NPM](https://img.shields.io/npm/v/expandable-textarea.svg)](https://www.npmjs.com/package/expandable-textarea) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-Provided textarea will expand or shrink against its content. Also configurable to work as an Input field, limit its total line numbers and more options.
+Textarea will expand or shrink against its content. Also configurable to work as an Input field, limit its total line numbers, formating and more options.
 
 ## Install
 
@@ -19,6 +19,8 @@ npm install --save expandable-textarea
 - [Like Input](https://github.com/makannew/expandable-textarea/blob/master/README.md#fixed-size-like-input-field)
 - [Bring to focus by clicking on icon](https://github.com/makannew/expandable-textarea/blob/master/README.md#bring-to-focus-by-clicking-on-icon)
 - [Credit card number formating](https://github.com/makannew/expandable-textarea/blob/master/README.md#credit-card-number-formating)
+- [Password format](https://github.com/makannew/expandable-textarea/blob/master/README.md#password-format)
+- [Phone format](https://github.com/makannew/expandable-textarea/blob/master/README.md#phone-format)
 
 
 ## Expand and shrink 
@@ -85,8 +87,51 @@ import ExpandableTextarea, { maskFormating } from 'expandable-textarea'
   })
 ```
 ```jsx
+  <ExpandableTextarea
+    formatFunction={creditCardFormat}
+  />
+```
+`maskString` is string contains `replaceChar` and any other character excep `validChar`
+`replaceChar` is single character that means user can type here
+`validChar` is regEx means which character allowed, must not contain any character of `maskString` or `replaceChar`
+`preVisibleMask` means always show the format even it is empty
+`rightToLeft` If `true` means masking starts from right
+
+## Password format
+
+[Demo and Code](https://makannew.github.io/expandable-textarea/#/password-format)
+```jsx
+import ExpandableTextarea, { passwordFormating } from 'expandable-textarea'
+```
+```jsx
+const passwordFormat = passwordFormating(/[^-]/, '-')
+```
+Second argument is password masking character which by default is "*
+First argument is allowd characters which here `/[^-]/` means everything except `-` masking character.
+```jsx
+  <ExpandableTextarea
+    formatFunction={passwordFormat}
+  />
+```
+
+## Phone format
+
+[Demo and Code](https://makannew.github.io/expandable-textarea/#/phone-format)
+```jsx
+import ExpandableTextarea, { maskFormating } from 'expandable-textarea'
+```
+```jsx
+  const phoneFormat = maskFormating({
+    maskString: '(!!) !!!! !!!!',
+    replaceChar: '!',
+    validChar: /d/g,
+    preVisibleMask: false,
+    rightToLeft: false
+  })
+```
+```jsx
       <ExpandableTextarea
-        formatFunction={creditCardFormat}
+        formatFunction={phoneFormat}
       />
 ```
 
