@@ -15,10 +15,12 @@ Provided textarea will expand or shrink against its content. Also configurable t
 npm install --save expandable-textarea
 ```
 ## Table of content
-- [Concept](https://github.com/makannew/Composer/blob/master/README.md#concept)
+- [Concept](https://github.com/makannew/expandable-textarea/blob/master/README.md#simple-expand-and-shrink-example-demo-and-code)
 
 
-## Simple expand and shrink example [Demo and Code](https://makannew.github.io/expandable-textarea/#/)
+## Simple expand and shrink example 
+
+[Demo and Code](https://makannew.github.io/expandable-textarea/#/)
 ```jsx
 import ExpandableTextarea from 'expandable-textarea'
 ```
