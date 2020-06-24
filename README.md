@@ -9,6 +9,10 @@
 
 Textarea will expand or shrink against its content. Also configurable to work as an Input field, limiting its total line numbers, formating and more options.
 
+<br/>
+<br/>
+<br/>
+
 ## Install
 
 ```bash
@@ -30,6 +34,7 @@ npm install --save expandable-textarea
 <br/>
 <br/>
 <br/>
+
 ## Expand and shrink 
 
 [Demo and Code](https://makannew.github.io/expandable-textarea/#/)
