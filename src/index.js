@@ -109,8 +109,10 @@ const ExpandableTextarea = forwardRef(function (
   }, [])
 
   useEffect(() => {
+    const iniValue = state.value
     handleKeyDown({ key: '' })
-    prepareChangeData(state.value, initialValue)
+    textAreaRef.current.value = initialValue
+    prepareChangeData(iniValue, initialValue)
     changeData.current.valid = true
     changeData.current.unformatedValue = undefined
     applyFormat()
