@@ -75,7 +75,7 @@ import AddressIcon from '../address-icon/address-icon'
 
 [Demo and Code](https://makannew.github.io/expandable-textarea/#/credit-card-format)
 ```jsx
-import ExpandableTextarea, { maskFormating } from 'expandable-textarea'
+import { maskFormating } from 'expandable-textarea'
 ```
 ```jsx
  const creditCardFormat = maskFormating({
@@ -91,17 +91,22 @@ import ExpandableTextarea, { maskFormating } from 'expandable-textarea'
     formatFunction={creditCardFormat}
   />
 ```
-`maskString` is string contains `replaceChar` and any other character excep `validChar`
-`replaceChar` is single character that means user can type here
-`validChar` is regEx means which character allowed, must not contain any character of `maskString` or `replaceChar`
-`preVisibleMask` means always show the format even it is empty
-`rightToLeft` If `true` means masking starts from right
+- `maskString` is string contains `replaceChar` and any other character excep `validChar`
+  (Default is `'!!!!-!!!!-!!!!-!!!!'`
+- `replaceChar` is single character that means user can type here
+  (Default is `'!'`)
+- `validChar` is regEx means which character allowed, must not contain any character of `maskString` or `replaceChar`
+  (Default is `/\d/g` means 0 to 9)
+- `preVisibleMask` means always show the format even it is empty. 
+  (Default is `true`)
+- `rightToLeft` If `true` means masking starts from right. 
+  (Default is `false`)
 
 ## Password format
 
 [Demo and Code](https://makannew.github.io/expandable-textarea/#/password-format)
 ```jsx
-import ExpandableTextarea, { passwordFormating } from 'expandable-textarea'
+import { passwordFormating } from 'expandable-textarea'
 ```
 ```jsx
 const passwordFormat = passwordFormating(/[^-]/, '-')
@@ -118,7 +123,7 @@ First argument is allowd characters which here `/[^-]/` means everything except 
 
 [Demo and Code](https://makannew.github.io/expandable-textarea/#/phone-format)
 ```jsx
-import ExpandableTextarea, { maskFormating } from 'expandable-textarea'
+import { maskFormating } from 'expandable-textarea'
 ```
 ```jsx
   const phoneFormat = maskFormating({
@@ -130,9 +135,9 @@ import ExpandableTextarea, { maskFormating } from 'expandable-textarea'
   })
 ```
 ```jsx
-      <ExpandableTextarea
-        formatFunction={phoneFormat}
-      />
+  <ExpandableTextarea
+    formatFunction={phoneFormat}
+  />
 ```
 
 ## License
