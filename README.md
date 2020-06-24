@@ -26,35 +26,6 @@ npm install --save expandable-textarea
 - [Custom format](https://github.com/makannew/expandable-textarea/blob/master/README.md#custom-format)
 
 
-## Props
-#### `beforeElement`
-  React element like an Icon or label. Click on them brings textarea to focus.
-#### `afterElement`
-#### `className`
-  To style wrapper `div` around `beforeElement`, original `textarea` , `afterElement`
-#### `submitValue`
-  Is a function. Called when `onBlure` happened and textarea value changed from `initialValue`\
-  Passed parameter = `{[name]: newValue, differFromInitial, name, unformatedValue, value}`\
-  `newValue` will be either formated or unformated value depends on if formating applied
-####  `name`
-  Unique name will same key name in `submitValue`\
-  Must be set for submiting new values.
-####  `initialValue = ''`
-####  `totalLines`
-  Unlimited lenght if not specified.
-####  `minRows`
-  Sets minimum shrinking line count
-####  `maxRows`
-  Sets maximum expanding line count
-####  `rows`
-  Fixed line count if specified
-####  `formatFunction`
-  Can be set to a built-in or custom formating function
-####  `resizeDebouncingDelay = 300`
-####  `fitInField = false`
-  Works with one line [Like Input](https://github.com/makannew/expandable-textarea/blob/master/README.md#fixed-size-like-input-field) fields. It limits lenght to textarea view.
-####  `...rest`
-Additional standard textarea attributes like: disabled, wrap,...
 
 
 ## Expand and shrink 
@@ -228,6 +199,37 @@ import { maskFormating } from 'expandable-textarea'
 - `valid===true` means `newValue` is a valid change from `ExpandableTextarea` point of view.
 - `unformatedValue` must set to the unformated value after formating logic.
 - `newValue` must set to the formated value after formating logic 
+
+## Props
+#### `beforeElement`
+  React element like an Icon or label. Click on them brings textarea to focus.
+#### `afterElement`
+#### `className`
+  To style wrapper `div` around `beforeElement`, original `textarea` , `afterElement`
+#### `submitValue`
+  Is a function. Called when `onBlure` happened and textarea value changed from `initialValue`\
+  Passed parameter = `{[name]: newValue, differFromInitial, name, unformatedValue, value}`\
+  `newValue` will be either formated or unformated value depends on if formating applied
+####  `name`
+  Unique name will same key name in `submitValue`\
+  Must be set for submiting new values.
+####  `initialValue = ''`
+####  `totalLines`
+  Unlimited lenght if not specified.
+####  `minRows`
+  Sets minimum shrinking line count
+####  `maxRows`
+  Sets maximum expanding line count
+####  `rows`
+  Fixed line count if specified
+####  `formatFunction`
+  Can be set to a built-in or custom formating function
+####  `resizeDebouncingDelay = 300`
+####  `fitInField = false`
+  Works with one line [Like Input](https://github.com/makannew/expandable-textarea/blob/master/README.md#fixed-size-like-input-field) fields. It limits lenght to textarea view.
+####  `...rest`
+Additional standard textarea attributes like: disabled, wrap,...
+
 
 ## License
 
