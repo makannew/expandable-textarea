@@ -13,11 +13,12 @@ import CustomFormat from './components/custom-format/custom-format'
 
 function App() {
   const [state, setState] = useState('')
+  const [serverState, setServerState] = useState('')
   return (
     <HashRouter>
       <div className='top-panel'>
         <Nav />
-        <MockupServer serverState={state} />
+        <MockupServer serverState={serverState} setState={setState} />
       </div>
       <div className='examples'>
         <Switch>
@@ -25,49 +26,58 @@ function App() {
             exact
             path='/'
             render={() => (
-              <ExpandShrink serverState={state} updateServer={setState} />
+              <ExpandShrink serverState={state} updateServer={setServerState} />
             )}
           />
           <Route
             path='/expand-shrink'
             render={() => (
-              <ExpandShrink serverState={state} updateServer={setState} />
+              <ExpandShrink serverState={state} updateServer={setServerState} />
             )}
           />
           <Route
             path='/input-like-field'
             render={() => (
-              <InputLikeField serverState={state} updateServer={setState} />
+              <InputLikeField
+                serverState={state}
+                updateServer={setServerState}
+              />
             )}
           />
           <Route
             path='/credit-card-format'
             render={() => (
-              <CreditCardFormat serverState={state} updateServer={setState} />
+              <CreditCardFormat
+                serverState={state}
+                updateServer={setServerState}
+              />
             )}
           />
           <Route
             path='/phone-format'
             render={() => (
-              <PhoneFormat serverState={state} updateServer={setState} />
+              <PhoneFormat serverState={state} updateServer={setServerState} />
             )}
           />
           <Route
             path='/password-format'
             render={() => (
-              <PasswordFormat serverState={state} updateServer={setState} />
+              <PasswordFormat
+                serverState={state}
+                updateServer={setServerState}
+              />
             )}
           />
           <Route
             path='/focus-by-icon'
             render={() => (
-              <FocusByIcon serverState={state} updateServer={setState} />
+              <FocusByIcon serverState={state} updateServer={setServerState} />
             )}
           />
           <Route
             path='/custom-format'
             render={() => (
-              <CustomFormat serverState={state} updateServer={setState} />
+              <CustomFormat serverState={state} updateServer={setServerState} />
             )}
           />
         </Switch>

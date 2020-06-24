@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import ExpandableTextarea from 'expandable-textarea'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx'
@@ -7,6 +7,8 @@ import { prism as thisStyle } from 'react-syntax-highlighter/dist/esm/styles/pri
 SyntaxHighlighter.registerLanguage('jsx', jsx)
 
 export default function InputLikeField({ serverState, updateServer }) {
+  const textareaRef = useRef()
+
   function handleSubmit(result) {
     const { name, differFromInitial } = result
     if (!differFromInitial) return
@@ -18,10 +20,16 @@ export default function InputLikeField({ serverState, updateServer }) {
         return
     }
   }
+
+  useEffect(() => {
+    textareaRef.current.focus()
+  }, [])
+
   return (
     <div className='container'>
       <h4>Input-like-field example</h4>
       <ExpandableTextarea
+        ref={textareaRef}
         className={'fixed-height'}
         placeholder='Type here'
         initialValue={serverState}
@@ -38,10 +46,12 @@ export default function InputLikeField({ serverState, updateServer }) {
         showLineNumbers='true'
       >
         {`
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import ExpandableTextarea from 'expandable-textarea'
 
 export default function InputLikeField({ serverState, updateServer }) {
+  const textareaRef = useRef()
+
   function handleSubmit(result) {
     const { name, differFromInitial } = result
     if (!differFromInitial) return
@@ -53,10 +63,16 @@ export default function InputLikeField({ serverState, updateServer }) {
         return
     }
   }
+
+  useEffect(() => {
+    textareaRef.current.focus()
+  }, [])
+
   return (
     <div className='container'>
       <h4>Input-like-field example</h4>
       <ExpandableTextarea
+        ref={textareaRef}
         className={'fixed-height'}
         placeholder='Type here'
         initialValue={serverState}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import ExpandableTextarea, { maskFormating } from 'expandable-textarea'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx'
@@ -7,6 +7,8 @@ import { prism as thisStyle } from 'react-syntax-highlighter/dist/esm/styles/pri
 SyntaxHighlighter.registerLanguage('jsx', jsx)
 
 export default function PhoneFormat({ serverState, updateServer }) {
+  const textareaRef = useRef()
+
   function handleSubmit(result) {
     const { name, differFromInitial } = result
     if (!differFromInitial) return
@@ -27,10 +29,15 @@ export default function PhoneFormat({ serverState, updateServer }) {
     rightToLeft: false
   })
 
+  useEffect(() => {
+    textareaRef.current.focus()
+  }, [])
+
   return (
     <div className='container'>
       <h4>Phone format example</h4>
       <ExpandableTextarea
+        ref={textareaRef}
         placeholder='Phone number'
         className={'fixed-height'}
         initialValue={serverState}
@@ -49,10 +56,12 @@ export default function PhoneFormat({ serverState, updateServer }) {
         showLineNumbers='true'
       >
         {`
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import ExpandableTextarea, { maskFormating } from 'expandable-textarea'
 
 export default function PhoneFormat({ serverState, updateServer }) {
+  const textareaRef = useRef()
+
   function handleSubmit(result) {
     const { name, differFromInitial } = result
     if (!differFromInitial) return
@@ -73,10 +82,15 @@ export default function PhoneFormat({ serverState, updateServer }) {
     rightToLeft: false
   })
 
+  useEffect(() => {
+    textareaRef.current.focus()
+  }, [])
+
   return (
     <div className='container'>
       <h4>Phone format example</h4>
       <ExpandableTextarea
+        ref={textareaRef}
         placeholder='Phone number'
         className={'fixed-height'}
         initialValue={serverState}

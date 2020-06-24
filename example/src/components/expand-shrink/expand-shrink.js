@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import ExpandableTextarea from 'expandable-textarea'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx'
@@ -7,6 +7,8 @@ import { prism as thisStyle } from 'react-syntax-highlighter/dist/esm/styles/pri
 SyntaxHighlighter.registerLanguage('jsx', jsx)
 
 export default function ExpandShrink({ serverState, updateServer }) {
+  const textareaRef = useRef()
+
   function handleSubmit(result) {
     const { name, differFromInitial } = result
     if (!differFromInitial) return
@@ -18,10 +20,15 @@ export default function ExpandShrink({ serverState, updateServer }) {
         return
     }
   }
+  useEffect(() => {
+    textareaRef.current.focus()
+  }, [])
+
   return (
     <div className='container'>
       <h4>Expand-shrink example</h4>
       <ExpandableTextarea
+        ref={textareaRef}
         placeholder='Type here'
         initialValue={serverState}
         submitValue={handleSubmit}
@@ -38,10 +45,12 @@ export default function ExpandShrink({ serverState, updateServer }) {
         showLineNumbers='true'
       >
         {`
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import ExpandableTextarea from 'expandable-textarea'
 
 export default function ExpandShrink({ serverState, updateServer }) {
+  const textareaRef = useRef()
+
   function handleSubmit(result) {
     const { name, differFromInitial } = result
     if (!differFromInitial) return
@@ -53,10 +62,15 @@ export default function ExpandShrink({ serverState, updateServer }) {
         return
     }
   }
+  useEffect(() => {
+    textareaRef.current.focus()
+  }, [])
+
   return (
     <div className='container'>
       <h4>Expand-shrink example</h4>
       <ExpandableTextarea
+        ref={textareaRef}
         placeholder='Type here'
         initialValue={serverState}
         submitValue={handleSubmit}
