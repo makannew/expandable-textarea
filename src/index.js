@@ -186,9 +186,13 @@ const ExpandableTextarea = forwardRef(function (
   function submitChange() {
     if (typeof name === 'string') {
       const { unformatedValue } = changeData.current
+      let submitingValue = state.value
+      if (unformatedValue !== undefined) {
+        submitingValue = unformatedValue
+      }
       submitValue({
-        [name]: unformatedValue || state.value,
-        differFromInitial: initialValue !== (unformatedValue || state.value),
+        [name]: submitingValue,
+        differFromInitial: initialValue !== submitingValue,
         name,
         unformatedValue: unformatedValue,
         value: state.value
