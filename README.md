@@ -14,9 +14,11 @@ Provided textarea will expand or shrink against its content. Also configurable t
 ```bash
 npm install --save expandable-textarea
 ```
+## Table of content
+- [Concept](https://github.com/makannew/Composer/blob/master/README.md#concept)
 
-## Usage
-- Simple expand and shrink example [Demo and Code](https://makannew.github.io/expandable-textarea/#/)
+
+## Simple expand and shrink example [Demo and Code](https://makannew.github.io/expandable-textarea/#/)
 ```jsx
 import ExpandableTextarea from 'expandable-textarea'
 ```
