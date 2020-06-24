@@ -48,7 +48,7 @@ export default function PhoneFormat({ serverState, updateServer }) {
         name='phoneFormat'
       />
 
-      <h4>Code</h4>
+      <h4 className='code-title'>Code</h4>
       <SyntaxHighlighter
         className='code-style'
         language='jsx'
@@ -106,6 +106,20 @@ export default function PhoneFormat({ serverState, updateServer }) {
 
 `}
       </SyntaxHighlighter>
+      <h4 className='code-title'>CSS</h4>
+      <SyntaxHighlighter
+        className='code-style'
+        language='css'
+        style={thisStyle}
+        showLineNumbers='true'
+      >{`
+/* CSS */
+
+.fixed-height > textarea {
+  height: 2rem;
+}
+
+      `}</SyntaxHighlighter>
     </div>
   )
 }

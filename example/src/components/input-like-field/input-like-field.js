@@ -88,7 +88,6 @@ export default function InputLikeField({ serverState, updateServer }) {
       `}
       </SyntaxHighlighter>
       <h4 className='code-title'>CSS</h4>
-
       <SyntaxHighlighter
         className='code-style'
         language='css'

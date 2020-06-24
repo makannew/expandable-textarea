@@ -42,7 +42,7 @@ export default function PasswordFormat({ serverState, updateServer }) {
         name='passwordFormat'
       />
 
-      <h4>Code</h4>
+      <h4 className='code-title'>Code</h4>
       <SyntaxHighlighter
         className='code-style'
         language='jsx'
@@ -94,6 +94,20 @@ export default function PasswordFormat({ serverState, updateServer }) {
 
 `}
       </SyntaxHighlighter>
+      <h4 className='code-title'>CSS</h4>
+      <SyntaxHighlighter
+        className='code-style'
+        language='css'
+        style={thisStyle}
+        showLineNumbers='true'
+      >{`
+/* CSS */
+
+.fixed-height > textarea {
+  height: 2rem;
+}
+
+      `}</SyntaxHighlighter>
     </div>
   )
 }
