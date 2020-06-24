@@ -16,7 +16,7 @@ npm install --save expandable-textarea
 ```
 
 ## Usage
-Simple expand and shrink example [Demo and Code](https://makannew.github.io/expandable-textarea/#/)
+- Simple expand and shrink example [Demo and Code](https://makannew.github.io/expandable-textarea/#/)
 ```jsx
 import ExpandableTextarea from 'expandable-textarea'
 ```
@@ -33,7 +33,19 @@ import ExpandableTextarea from 'expandable-textarea'
   />
 ```
 
-
+- Fixed size like input field [Demo and Code](https://makannew.github.io/expandable-textarea/#/input-like-field)
+```jsx
+      <ExpandableTextarea
+        className={'fixed-height'}
+        rows={1}
+        totalLines={1}
+      />
+```
+```css
+.fixed-height > textarea {
+  height: 2rem;
+}
+```
 
 ## License
 
