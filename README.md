@@ -75,7 +75,6 @@ import ExpandableTextarea from 'expandable-textarea'
     maxRows={5}
   />
 ```
-Note: If `totalLines` not specified lenght will be unlimited.
 
 ## Fixed size like input field 
 
