@@ -7,7 +7,7 @@
 
 [![NPM](https://img.shields.io/npm/v/expandable-textarea.svg)](https://www.npmjs.com/package/expandable-textarea) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-Textarea will expand or shrink against its content. Also configurable to work as an Input field, limit its total line numbers, formating and more options.
+Textarea will expand or shrink against its content. Also configurable to work as an Input field, limiting its total line numbers, formating and more options.
 
 ## Install
 
