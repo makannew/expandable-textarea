@@ -20,8 +20,12 @@ export function maskFormating(para = {}) {
     }
 
     let alreadyValid = true
-    for (let i = 0, len = newValue.length; i < len; ++i) {
-      if (i > maskStr.length) {
+    for (
+      let i = 0, len = preVisibleMask ? maskStr.length : newValue.length;
+      i < len;
+      ++i
+    ) {
+      if (i >= maskStr.length || i >= newValue.length) {
         alreadyValid = false
         break
       }
@@ -100,10 +104,10 @@ export function maskFormating(para = {}) {
       cursorPos = formated.length - cursorPos
       cursorPos = cursorPos < 0 ? 0 : cursorPos
     }
-
+    unformated = (formated.match(validChar) || ['']).join('')
     return {
       ...changeData,
-      unformatedValue: (formated.match(validChar) || ['']).join(''),
+      unformatedValue: unformated,
       newValue: formated,
       newSelectionStart: cursorPos,
       newSelectionEnd: cursorPos
