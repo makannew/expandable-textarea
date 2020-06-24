@@ -91,7 +91,8 @@ import { maskFormating } from 'expandable-textarea'
     formatFunction={creditCardFormat}
   />
 ```
-- `maskString` ###### _(Default is `'!!!!-!!!!-!!!!-!!!!'`)_\
+- `maskString` 
+###### _(Default is `'!!!!-!!!!-!!!!-!!!!'`)_\
   is string contains `replaceChar` and any other character excep `validChar`.
 - `replaceChar` is single character that means user can type here\
   _(Default is `'!'`)_
