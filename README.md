@@ -14,11 +14,14 @@ Provided textarea will expand or shrink against its content. Also configurable t
 ```bash
 npm install --save expandable-textarea
 ```
-## Table of content
-- [Concept](https://github.com/makannew/expandable-textarea/blob/master/README.md#simple-expand-and-shrink-example-demo-and-code)
+## How to use
+- [Expand and shrink](https://github.com/makannew/expandable-textarea/blob/master/README.md#expand-and-shrink)
+- [Like Input](https://github.com/makannew/expandable-textarea/blob/master/README.md#fixed-size-like-input-field)
+- [Bring to focus by clicking on icon](https://github.com/makannew/expandable-textarea/blob/master/README.md#bring-to-focus-by-clicking-on-icon)
+- [Credit card number formating](https://github.com/makannew/expandable-textarea/blob/master/README.md#credit-card-number-formating)
 
 
-## Simple expand and shrink example 
+## Expand and shrink 
 
 [Demo and Code](https://makannew.github.io/expandable-textarea/#/)
 ```jsx
@@ -36,9 +39,11 @@ import ExpandableTextarea from 'expandable-textarea'
     maxRows={5}
   />
 ```
-If `totalLines` not specified content lenght will be unlimited.
+Note: If `totalLines` not specified lenght will be unlimited.
 
-- Fixed size like input field [Demo and Code](https://makannew.github.io/expandable-textarea/#/input-like-field)
+## Fixed size like input field 
+
+[Demo and Code](https://makannew.github.io/expandable-textarea/#/input-like-field)
 ```jsx
   <ExpandableTextarea
     className={'fixed-height'}
@@ -51,7 +56,9 @@ If `totalLines` not specified content lenght will be unlimited.
   height: 2rem;
 }
 ```
-- Bring to focus by clicking on icon [Demo and Code](https://makannew.github.io/expandable-textarea/#/focus-by-icon)
+## Bring to focus by clicking on icon 
+
+[Demo and Code](https://makannew.github.io/expandable-textarea/#/focus-by-icon)
 ```jsx
 import AddressIcon from '../address-icon/address-icon'
 ```
@@ -62,7 +69,9 @@ import AddressIcon from '../address-icon/address-icon'
   />
 ```
 
-- Credit card number formating [Demo and Code](https://makannew.github.io/expandable-textarea/#/credit-card-format)
+## Credit card number formating 
+
+[Demo and Code](https://makannew.github.io/expandable-textarea/#/credit-card-format)
 ```jsx
 import ExpandableTextarea, { maskFormating } from 'expandable-textarea'
 ```
