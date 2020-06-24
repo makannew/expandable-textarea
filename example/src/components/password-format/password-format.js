@@ -13,12 +13,13 @@ export default function PasswordFormat({ serverState, updateServer }) {
     switch (name) {
       case 'passwordFormat':
         updateServer(result[name])
+        break
       default:
         return
     }
   }
 
-  const passwordFormat = passwordFormating(/[^\-]/, '-')
+  const passwordFormat = passwordFormating(/[^-]/, '-')
 
   return (
     <div className='container'>
@@ -52,12 +53,13 @@ export default function PasswordFormat({ serverState, updateServer }) {
     switch (name) {
       case 'passwordFormat':
         updateServer(result[name])
+        break
       default:
         return
     }
   }
 
-  const passwordFormat = passwordFormating(/[^\-]/, '-')
+  const passwordFormat = passwordFormating(/[^-]/, '-')
 
   return (
     <div className='container'>

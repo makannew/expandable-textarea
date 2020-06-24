@@ -15,6 +15,7 @@ export default function FocusByIcon({ serverState, updateServer }) {
     switch (name) {
       case 'focusByIcon':
         updateServer(result[name])
+        break
       default:
         return
     }
@@ -54,6 +55,7 @@ export default function FocusByIcon({ serverState, updateServer }) {
     switch (name) {
       case 'focusByIcon':
         updateServer(result[name])
+        break
       default:
         return
     }

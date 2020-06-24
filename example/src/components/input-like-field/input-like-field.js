@@ -13,6 +13,7 @@ export default function InputLikeField({ serverState, updateServer }) {
     switch (name) {
       case 'inputLikeField':
         updateServer(result[name])
+        break
       default:
         return
     }
@@ -47,6 +48,7 @@ export default function InputLikeField({ serverState, updateServer }) {
     switch (name) {
       case 'inputLikeField':
         updateServer(result[name])
+        break
       default:
         return
     }

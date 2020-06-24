@@ -13,6 +13,7 @@ export default function CreditCardFormat({ serverState, updateServer }) {
     switch (name) {
       case 'creditCardFormat':
         updateServer(result[name])
+        break
       default:
         return
     }
@@ -57,6 +58,7 @@ export default function CreditCardFormat({ serverState, updateServer }) {
     switch (name) {
       case 'creditCardFormat':
         updateServer(result[name])
+        break
       default:
         return
     }

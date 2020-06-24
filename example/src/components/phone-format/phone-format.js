@@ -13,6 +13,7 @@ export default function PhoneFormat({ serverState, updateServer }) {
     switch (name) {
       case 'phoneFormat':
         updateServer(result[name])
+        break
       default:
         return
     }
@@ -58,6 +59,7 @@ export default function PhoneFormat({ serverState, updateServer }) {
     switch (name) {
       case 'phoneFormat':
         updateServer(result[name])
+        break
       default:
         return
     }

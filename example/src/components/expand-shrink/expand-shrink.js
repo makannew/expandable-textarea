@@ -13,6 +13,7 @@ export default function ExpandShrink({ serverState, updateServer }) {
     switch (name) {
       case 'expandShrink':
         updateServer(result[name])
+        break
       default:
         return
     }
@@ -47,6 +48,7 @@ export default function ExpandShrink({ serverState, updateServer }) {
     switch (name) {
       case 'expandShrink':
         updateServer(result[name])
+        break
       default:
         return
     }

@@ -13,6 +13,7 @@ export default function CustomFormat({ serverState, updateServer }) {
     switch (name) {
       case 'customFormat':
         updateServer(result[name])
+        break
       default:
         return
     }
@@ -60,6 +61,7 @@ export default function CustomFormat({ serverState, updateServer }) {
     switch (name) {
       case 'customFormat':
         updateServer(result[name])
+        break
       default:
         return
     }
