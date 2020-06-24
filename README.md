@@ -31,10 +31,10 @@ npm install --save expandable-textarea
   React element like an Icon or label. Click on them brings textarea to focus.
 #### `afterElement`
 #### `className`
-  To style wrapper `div` around `beforeElement`,`textarea` , `afterElement`
+  To style wrapper `div` around `beforeElement`, original `textarea` , `afterElement`
 #### `submitValue`
   Is a function. Called when `onBlure` happened and textarea value changed from `initialValue`\
-  Passed object = `{[name]: newValue, differFromInitial, name, unformatedValue, value}`\
+  Passed parameter = `{[name]: newValue, differFromInitial, name, unformatedValue, value}`\
   `newValue` will be either formated or unformated value depends on if formating applied
 ####  `name`
   Unique name will same key name in `submitValue`\
