@@ -93,16 +93,19 @@ import { maskFormating } from 'expandable-textarea'
 ```
 - `maskString`\
   is string contains `replaceChar` and any other character excep `validChar`.\
-  _(Default is `'!!!!-!!!!-!!!!-!!!!'`)_
+  _(Default = `'!!!!-!!!!-!!!!-!!!!'`)_
   
-- `replaceChar` is single character that means user can type here\
-  _(Default is `'!'`)_
-- `validChar` is regEx means which character allowed, must not contain any character of `maskString` or `replaceChar`
-  (Default is `/\d/g` means 0 to 9)
-- `preVisibleMask` means always show the format even it is empty. 
-  (Default is `true`)
-- `rightToLeft` If `true` means masking starts from right. 
-  (Default is `false`)
+- `replaceChar`\
+  is single character that means user can type here\
+  _(Default = `'!'`)_
+- `validChar`\
+  is regEx means which character allowed, must not contain any character of `maskString` or `replaceChar`\
+  _(Default = `/\d/g` means 0 to 9)_
+- `preVisibleMask`\
+  means always show the format even it is empty. \
+  _(Default = `true`)_
+- `rightToLeft` If `true` means masking starts from right. \
+  _(Default = `false`)_
 
 ## Password format
 
