@@ -15,24 +15,6 @@ Textarea will expand or shrink against its content. Also configurable to work as
 npm install --save expandable-textarea
 ```
 
-## Props
-- `beforeElement`\
-  React element like Icon or label. Click on them bring textarea to focus.
-- `afterElement`\
-  React element like Icon or label. Click on them bring textarea to focus.
-- `className`\
-- `submitValue`\
-- `initialValue = ''`\
-- `totalLines`\
-- `minRows`\
-- `maxRows`\
-- `rows`\
-- `formatFunction`\
-- `resizeDebouncingDelay = 300`\
-- `fitInField = false`\
-- `...rest`\
-Additional standard textarea attributes like: disabled, wrap,...
-
 
 ## How to use
 - [Expand and shrink](https://github.com/makannew/expandable-textarea/blob/master/README.md#expand-and-shrink)
@@ -42,6 +24,37 @@ Additional standard textarea attributes like: disabled, wrap,...
 - [Password format](https://github.com/makannew/expandable-textarea/blob/master/README.md#password-format)
 - [Phone format](https://github.com/makannew/expandable-textarea/blob/master/README.md#phone-format)
 - [Custom format](https://github.com/makannew/expandable-textarea/blob/master/README.md#custom-format)
+
+
+## Props
+- `beforeElement`\
+  React element like an Icon or label. Click on them brings textarea to focus.
+- `afterElement`
+- `className`\
+  To style wrapper `div` of the original `textarea` 
+- `submitValue`\
+  Is a function. Called when `onBlure` happens and textarea value changed from `initialValue`\
+  Passed object = `{[name]: newValue, differFromInitial, name, unformatedValue, value}`
+- `name`\
+  Unique name will be key name in submiting object.\
+  Must be set for submiting new values.
+- `initialValue = ''`
+- `totalLines`\
+  Unlimited lenght if not specified.
+- `minRows`\
+  Sets minimum shrink like count
+- `maxRows`\
+  Sets maximum expand line count
+- `rows`\
+  Fixed line count if specified
+- `formatFunction`\
+  Can be set to built-in or custom formating functions
+- `resizeDebouncingDelay = 300`
+- `fitInField = false`\
+  Works with one line input like fields. It limits lenght to textarea view.
+- `...rest`\
+Additional standard textarea attributes like: disabled, wrap,...
+
 
 ## Expand and shrink 
 
