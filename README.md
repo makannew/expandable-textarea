@@ -46,6 +46,16 @@ import ExpandableTextarea from 'expandable-textarea'
   height: 2rem;
 }
 ```
+- Bring to focus by clicking on icon [Demo and Code](https://makannew.github.io/expandable-textarea/#/focus-by-icon)
+```jsx
+import AddressIcon from '../address-icon/address-icon'
+```
+```jsx
+      <ExpandableTextarea
+        beforeElement={<AddressIcon />}
+        afterElement={<AddressIcon />}
+      />
+```
 
 ## License
 
