@@ -43,16 +43,16 @@ npm install --save expandable-textarea
 ####  `totalLines`
   Unlimited lenght if not specified.
 ####  `minRows`
-  Sets minimum shrink like count
+  Sets minimum shrinking line count
 ####  `maxRows`
-  Sets maximum expand line count
+  Sets maximum expanding line count
 ####  `rows`
   Fixed line count if specified
 ####  `formatFunction`
-  Can be set to built-in or custom formating functions
+  Can be set to a built-in or custom formating function
 ####  `resizeDebouncingDelay = 300`
 ####  `fitInField = false`
-  Works with one line input like fields. It limits lenght to textarea view.
+  Works with one line [Like Input](https://github.com/makannew/expandable-textarea/blob/master/README.md#fixed-size-like-input-field) fields. It limits lenght to textarea view.
 ####  `...rest`
 Additional standard textarea attributes like: disabled, wrap,...
 
