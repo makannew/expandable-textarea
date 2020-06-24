@@ -36,8 +36,6 @@ import ExpandableTextarea from 'expandable-textarea'
 ```
 ```jsx
   <ExpandableTextarea
-    ref={textareaRef}
-    placeholder='Type here'
     initialValue={serverState}
     submitValue={handleSubmit}
     totalLines={5}
