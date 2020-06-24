@@ -20,8 +20,12 @@ export function maskFormating(para = {}) {
     }
 
     let alreadyValid = true
+
     for (
-      let i = 0, len = preVisibleMask ? maskStr.length : newValue.length;
+      let i = 0,
+        len = preVisibleMask
+          ? Math.max(maskStr.length, newValue.length)
+          : newValue.length;
       i < len;
       ++i
     ) {
