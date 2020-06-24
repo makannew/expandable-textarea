@@ -102,3 +102,12 @@ a {
   justify-content: center;
   flex-wrap: wrap;
 }
+
+.fixed-height > textarea {
+  height: 2rem;
+}
+
+.code-title {
+  padding: 15px 0px 4px 0px;
+  color: var(--gray-color);
+}
