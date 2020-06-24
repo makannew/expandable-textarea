@@ -181,7 +181,7 @@ import { maskFormating } from 'expandable-textarea'
 
 ## Custom format
 
-It wraps any number inside parentheses. Just to show how it works.
+Just to show how it works we will build a formating function for wraping typed numbers inside parentheses.
 [Demo and Code](https://makannew.github.io/expandable-textarea/#/custom-format)
 ```jsx
 import { maskFormating } from 'expandable-textarea'
