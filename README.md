@@ -21,7 +21,7 @@ npm install --save expandable-textarea
 - [Credit card number formating](https://github.com/makannew/expandable-textarea/blob/master/README.md#credit-card-number-formating)
 - [Password format](https://github.com/makannew/expandable-textarea/blob/master/README.md#password-format)
 - [Phone format](https://github.com/makannew/expandable-textarea/blob/master/README.md#phone-format)
-
+- [Custom format](https://github.com/makannew/expandable-textarea/blob/master/README.md#custom-format)
 
 ## Expand and shrink 
 
@@ -117,7 +117,7 @@ import { passwordFormating } from 'expandable-textarea'
 const passwordFormat = passwordFormating(/[^-]/, '-')
 ```
 First argument is allowd characters which here `/[^-]/` means everything except `-` masking character.\
-Second argument is password masking character. (default = `'*'`)\
+Second argument is password masking character. (Default = `'*'`)
 ```jsx
   <ExpandableTextarea
     formatFunction={passwordFormat}
@@ -144,6 +144,57 @@ import { maskFormating } from 'expandable-textarea'
     formatFunction={phoneFormat}
   />
 ```
+
+## Custom format
+
+It wraps any number inside parentheses. Just to show how it works.
+[Demo and Code](https://makannew.github.io/expandable-textarea/#/custom-format)
+```jsx
+import { maskFormating } from 'expandable-textarea'
+```
+```jsx
+  const customFormat = (changeData) => {
+    const { newValue, valid } = changeData
+    if (!valid) return { ...changeData }
+    const newUnformatedValue = (newValue.match(/d/g) || ['']).join('')
+    const maskString = '(' + ''.padEnd(newUnformatedValue.length, '!') + ')'
+    const newChangeData = maskFormating({
+      maskString,
+      validChar: /d/g
+    })(changeData)
+    return { ...newChangeData, unformatedValue: newUnformatedValue }
+  }
+```
+```jsx
+      <ExpandableTextarea
+        formatFunction={customFormat}
+      />
+```
+`changeData` is an object prepared by `ExpandableTextarea` contains usefull information for formating.
+```jsx
+    {
+      iniValue,
+      iniLineCount,
+      iniSelectionStart,
+      iniSelectionEnd,
+      iniScrollTop,
+      iniScrollLeft,
+      pressedKey,
+      newValue,
+      newLineCount,
+      excessIsShrinking,
+      increasing,
+      newSelectionStart,
+      newSelectionEnd,
+      newScrollTop,
+      newScrollLeft,
+      unformatedValue,
+      valid
+    }
+```
+- `valid===true` means `newValue` is a valid change from `ExpandableTextarea` point of view.
+- `unformatedValue` must set to the unformated value after formating logic.
+- `newValue` must set to the formated value after formating logic 
 
 ## License
 
