@@ -116,8 +116,8 @@ import { passwordFormating } from 'expandable-textarea'
 ```jsx
 const passwordFormat = passwordFormating(/[^-]/, '-')
 ```
-Second argument is password masking character which by default is "*
-First argument is allowd characters which here `/[^-]/` means everything except `-` masking character.
+First argument is allowd characters which here `/[^-]/` means everything except `-` masking character.\
+Second argument is password masking character. (default = `'*'`)\
 ```jsx
   <ExpandableTextarea
     formatFunction={passwordFormat}
