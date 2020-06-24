@@ -14,6 +14,26 @@ Textarea will expand or shrink against its content. Also configurable to work as
 ```bash
 npm install --save expandable-textarea
 ```
+
+## Props
+- `beforeElement`\
+  React element like Icon or label. Click on them bring textarea to focus.
+- `afterElement`\
+  React element like Icon or label. Click on them bring textarea to focus.
+- `className`\
+- `submitValue`\
+- `initialValue = ''`\
+- `totalLines`\
+- `minRows`\
+- `maxRows`\
+- `rows`\
+- `formatFunction`\
+- `resizeDebouncingDelay = 300`\
+- `fitInField = false`\
+- `...rest`\
+Additional standard textarea attributes like: disabled, wrap,...
+
+
 ## How to use
 - [Expand and shrink](https://github.com/makannew/expandable-textarea/blob/master/README.md#expand-and-shrink)
 - [Like Input](https://github.com/makannew/expandable-textarea/blob/master/README.md#fixed-size-like-input-field)
@@ -170,7 +190,7 @@ import { maskFormating } from 'expandable-textarea'
         formatFunction={customFormat}
       />
 ```
-`changeData` is an object prepared by `ExpandableTextarea` contains usefull information for formating.
+`changeData` is an object prepared by `ExpandableTextarea` contains usefull information for applying formating logic.
 ```jsx
     {
       iniValue,
