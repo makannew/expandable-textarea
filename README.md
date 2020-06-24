@@ -27,7 +27,9 @@ npm install --save expandable-textarea
 
 
 
-
+<br/>
+<br/>
+<br/>
 ## Expand and shrink 
 
 [Demo and Code](https://makannew.github.io/expandable-textarea/#/)
@@ -46,6 +48,8 @@ import ExpandableTextarea from 'expandable-textarea'
 ```
 <br/>
 <br/>
+<br/>
+
 
 
 ## Fixed size like input field 
@@ -63,6 +67,10 @@ import ExpandableTextarea from 'expandable-textarea'
   height: 2rem;
 }
 ```
+<br/>
+<br/>
+<br/>
+
 ## Bring to focus by clicking on icon 
 
 [Demo and Code](https://makannew.github.io/expandable-textarea/#/focus-by-icon)
@@ -75,6 +83,10 @@ import AddressIcon from '../address-icon/address-icon'
     afterElement={<AddressIcon />}
   />
 ```
+<br/>
+<br/>
+<br/>
+
 
 ## Credit card number formating 
 
@@ -111,6 +123,9 @@ import { maskFormating } from 'expandable-textarea'
   _(Default = `true`)_
 - `rightToLeft` If `true` means masking starts from right. \
   _(Default = `false`)_
+<br/>
+<br/>
+<br/>
 
 ## Password format
 
@@ -128,6 +143,9 @@ Second argument is password masking character. (Default = `'*'`)
     formatFunction={passwordFormat}
   />
 ```
+<br/>
+<br/>
+<br/>
 
 ## Phone format
 
@@ -149,6 +167,9 @@ import { maskFormating } from 'expandable-textarea'
     formatFunction={phoneFormat}
   />
 ```
+<br/>
+<br/>
+<br/>
 
 ## Custom format
 
@@ -200,6 +221,9 @@ import { maskFormating } from 'expandable-textarea'
 - `valid===true` means `newValue` is a valid change from `ExpandableTextarea` point of view.
 - `unformatedValue` must set to the unformated value after formating logic.
 - `newValue` must set to the formated value after formating logic 
+<br/>
+<br/>
+<br/>
 
 ## Props
 #### `beforeElement`
@@ -230,6 +254,9 @@ import { maskFormating } from 'expandable-textarea'
   Works with one line [Like Input](https://github.com/makannew/expandable-textarea/blob/master/README.md#fixed-size-like-input-field) fields. It limits lenght to textarea view.
 ####  `...rest`
 Additional standard textarea attributes like: disabled, wrap,...
+<br/>
+<br/>
+<br/>
 
 
 ## License
