@@ -27,9 +27,9 @@ npm install --save expandable-textarea
 
 
 ## Props
-- `beforeElement`\
+### `beforeElement`\
   React element like an Icon or label. Click on them brings textarea to focus.
-- `afterElement`
+#### `afterElement`
 - `className`\
   To style wrapper `div` around `beforeElement`,`textarea` , `afterElement`
 - `submitValue`\
