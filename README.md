@@ -27,33 +27,33 @@ npm install --save expandable-textarea
 
 
 ## Props
-#### `beforeElement`\
+#### `beforeElement`
   React element like an Icon or label. Click on them brings textarea to focus.
 #### `afterElement`
-#### `className`\
+#### `className`
   To style wrapper `div` around `beforeElement`,`textarea` , `afterElement`
-#### `submitValue`\
+#### `submitValue`
   Is a function. Called when `onBlure` happened and textarea value changed from `initialValue`\
   Passed object = `{[name]: newValue, differFromInitial, name, unformatedValue, value}`\
   `newValue` will be either formated or unformated value depends on if formating applied
-####  `name`\
-  Unique name will be key name in submiting object.\
+####  `name`
+  Unique name will same key name in `submitValue`\
   Must be set for submiting new values.
 ####  `initialValue = ''`
-####  `totalLines`\
+####  `totalLines`
   Unlimited lenght if not specified.
-####  `minRows`\
+####  `minRows`
   Sets minimum shrink like count
-####  `maxRows`\
+####  `maxRows`
   Sets maximum expand line count
-####  `rows`\
+####  `rows`
   Fixed line count if specified
-####  `formatFunction`\
+####  `formatFunction`
   Can be set to built-in or custom formating functions
 ####  `resizeDebouncingDelay = 300`
-####  `fitInField = false`\
+####  `fitInField = false`
   Works with one line input like fields. It limits lenght to textarea view.
-####  `...rest`\
+####  `...rest`
 Additional standard textarea attributes like: disabled, wrap,...
 
 
