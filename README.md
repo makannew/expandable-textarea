@@ -44,6 +44,8 @@ import ExpandableTextarea from 'expandable-textarea'
     maxRows={5}
   />
 ```
+/
+/
 
 ## Fixed size like input field 
 
