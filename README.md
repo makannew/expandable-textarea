@@ -16,6 +16,7 @@ npm install --save expandable-textarea
 ```
 
 ## Usage
+Simple expand and shrink example [Demo and Code](https://makannew.github.io/expandable-textarea/#/)
 ```jsx
 import ExpandableTextarea from 'expandable-textarea'
 ```
