@@ -92,8 +92,8 @@ import { maskFormating } from 'expandable-textarea'
   />
 ```
 - `maskString`\
-  is string contains `replaceChar` and any other character excep `validChar`.
-###### _(Default is `'!!!!-!!!!-!!!!-!!!!'`)_
+  is string contains `replaceChar` and any other character excep `validChar`.\
+  _(Default is `'!!!!-!!!!-!!!!-!!!!'`)_
   
 - `replaceChar` is single character that means user can type here\
   _(Default is `'!'`)_
