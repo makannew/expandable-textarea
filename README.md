@@ -32,14 +32,15 @@ import ExpandableTextarea from 'expandable-textarea'
     maxRows={5}
   />
 ```
+If `totalLines` not specified content lenght will be unlimited.
 
 - Fixed size like input field [Demo and Code](https://makannew.github.io/expandable-textarea/#/input-like-field)
 ```jsx
-      <ExpandableTextarea
-        className={'fixed-height'}
-        rows={1}
-        totalLines={1}
-      />
+  <ExpandableTextarea
+    className={'fixed-height'}
+    rows={1}
+    totalLines={1}
+  />
 ```
 ```css
 .fixed-height > textarea {
@@ -51,9 +52,28 @@ import ExpandableTextarea from 'expandable-textarea'
 import AddressIcon from '../address-icon/address-icon'
 ```
 ```jsx
+  <ExpandableTextarea
+    beforeElement={<AddressIcon />}
+    afterElement={<AddressIcon />}
+  />
+```
+
+- Credit card number formating [Demo and Code](https://makannew.github.io/expandable-textarea/#/credit-card-format)
+```jsx
+import ExpandableTextarea, { maskFormating } from 'expandable-textarea'
+```
+```jsx
+ const creditCardFormat = maskFormating({
+    maskString: '!!!!-!!!!-!!!!-!!!!',
+    replaceChar: '!',
+    validChar: /d/g,
+    preVisibleMask: true,
+    rightToLeft: false
+  })
+```
+```jsx
       <ExpandableTextarea
-        beforeElement={<AddressIcon />}
-        afterElement={<AddressIcon />}
+        formatFunction={creditCardFormat}
       />
 ```
 
